@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bantaba — Cash Remittance Operating System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f2f8f4',
+              100: '#e1efe5',
+              500: '#1b6b38',
+              600: '#15542c',
+              700: '#103f21',
+              900: '#092111',
+            },
+            sand: {
+              50: '#fcfbfa',
+              100: '#f7f4ef',
+              200: '#ebe4d8',
+              800: '#473d31',
+              900: '#2b241c',
+            }
+          },
+          fontFamily: {
+            display: ['Fraunces', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #F4F6F4;
+      color: #1A211C;
+    }
+    .font-display { font-family: 'Fraunces', serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    .tactile-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8E3;
+      box-shadow: 0 4px 20px -2px rgba(27, 107, 56, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      border-radius: 16px;
+    }
+    .inset-input {
+      background: #F8FAF8;
+      border: 1.5px solid #D6E2D8;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+      transition: all 0.15s ease;
+    }
+    .inset-input:focus {
+      background: #FFFFFF;
+      border-color: #1b6b38;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.02), 0 0 0 3px rgba(27, 107, 56, 0.12);
+      outline: none;
+    }
+    .skeuo-btn {
+      background: linear-gradient(180deg, #228245 0%, #15542c 100%);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 4px 12px rgba(21, 84, 44, 0.3);
+      transition: all 0.1s ease;
+    }
+    .skeuo-btn:active {
+      transform: translateY(1.5px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 2px 4px rgba(21, 84, 44, 0.4);
+    }
+    .currency-key {
+      background: linear-gradient(180deg, #FFFFFF 0%, #F0F4F1 100%);
+      border: 1px solid #C5D5C8;
+      box-shadow: 0 2px 0 #B0C4B4, 0 3px 6px rgba(0,0,0,0.05);
+      transition: all 0.08s ease;
+    }
+    .currency-key:active, .currency-key.active {
+      background: #1b6b38;
+      color: #FFFFFF;
+      border-color: #103f21;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+      transform: translateY(2px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased" onload="initSystem()">
+
+  <!-- LOGIN OVERLAY SCREEN -->
+  <div id="loginOverlay" class="fixed inset-0 z-50 bg-sand-900/60 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="tactile-card w-full max-w-md p-8 bg-white space-y-6 text-center">
+      
+      <!-- EXACT LOGO EMBEDDED -->
+      <div class="flex flex-col items-center justify-center space-y-2">
+        <img src="bantaba.jpg" alt="Bantaba Logo" class="h-28 w-auto object-contain mix-blend-multiply" />
+        <p class="text-[10px] font-mono text-gray-400 uppercase tracking-wider">Cash Remittance Operating System v2.6</p>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Staff ID / Username</label>
+          <input type="text" id="staffId" value="TEL-8842" required class="w-full px-4 py-3 inset-input rounded-xl text-sm font-semibold">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Terminal PIN</label>
+          <input type="password" value="1234" required class="w-full px-4 py-3 inset-input rounded-xl text-sm font-semibold">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Branch Location</label>
+            <select id="branchSelect" class="w-full px-3 py-3 inset-input rounded-xl text-xs font-semibold">
+              <optgroup label="Send Desks (Cash-In)">
+                <option value="CANTON_GZ">China — Guangzhou Desk</option>
+                <option value="UK_LDN">UK — London Desk</option>
+                <option value="US_NYC">US — New York Desk</option>
+              </optgroup>
+              <optgroup label="Payout Counters (Cash-Out)">
+                <option value="GM_BJL">Gambia — Banjul Counter</option>
+                <option value="SN_DKR">Senegal — Dakar Counter</option>
+                <option value="ML_BMK">Mali — Bamako Counter</option>
+                <option value="GW_BSU">Guinea-Bissau — Bissau Counter</option>
+                <option value="GN_CKY">Guinea-Conakry — Conakry Counter</option>
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">System Role</label>
+            <select id="roleSelect" class="w-full px-3 py-3 inset-input rounded-xl text-xs font-semibold">
+              <option value="CASHIER">Teller / Cashier</option>
+              <option value="SUPERVISOR">Branch Supervisor</option>
+              <option value="COMPLIANCE">Compliance / MLRO</option>
+              <option value="ADMIN">System Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 text-white font-bold skeuo-btn rounded-xl text-sm uppercase tracking-wider mt-2">
+          Authenticate & Open Counter
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN APPLICATION INTERFACE -->
+  <div id="mainApp" class="hidden min-h-screen flex flex-col">
+    <!-- TOP SESSION HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between shadow-sm">
+      <div class="flex items-center space-x-5">
+        <!-- EXACT BRAND LOGO IMAGE -->
+        <img src="bantaba.jpg" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply" />
+
+        <div class="h-6 w-px bg-gray-200"></div>
+        <div class="flex items-center space-x-2 text-xs font-semibold text-gray-600">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="activeBranchDisplay">Guangzhou Desk</span>
+          <span class="text-gray-300">•</span>
+          <span id="activeStaffDisplay" class="font-mono text-brand-600">TEL-8842</span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <span id="roleBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-brand-50 text-brand-700 border border-brand-100 uppercase tracking-wider">
+          Teller / Cashier
+        </span>
+        <button onclick="handleLogout()" class="text-xs font-bold text-gray-500 hover:text-red-600 transition">
+          Exit Session
+        </button>
+      </div>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="bg-white border-b border-gray-200 px-6 flex space-x-2">
+      <button onclick="switchTab('send')" id="tab-send" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-brand-500 text-brand-700">
+        Cash Desk (Send)
+      </button>
+      <button onclick="switchTab('payout')" id="tab-payout" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+        Payout Counter (Cash-Out)
+      </button>
+      <button onclick="switchTab('analytics')" id="tab-analytics" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+        Analytics (Bento Grid)
+      </button>
+      <button onclick="switchTab('ledger')" id="tab-ledger" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+        General Ledger
+      </button>
+      <button onclick="switchTab('treasury')" id="tab-treasury" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+        Branch Vaults & Float
+      </button>
+      <button onclick="switchTab('audit')" id="tab-audit" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+        Audit Trails
+      </button>
+    </nav>
+
+    <!-- MAIN BODY CONTENT -->
+    <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
+      
+      <!-- TAB 1: CASH DESK (SEND) -->
+      <div id="view-send" class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 lg:col-span-7 space-y-6">
+          <div class="tactile-card p-6 space-y-5">
+            <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Issue Remittance & Receive Cash</h2>
+            
+            <!-- Origin Currency Selectors -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Origin Currency (Cash Taken)</label>
+              <div class="grid grid-cols-3 gap-3">
+                <button onclick="setSendCurrency('CNY')" id="curr-CNY" class="currency-key active py-2.5 rounded-xl text-xs font-bold font-mono">CNY (China)</button>
+                <button onclick="setSendCurrency('GBP')" id="curr-GBP" class="currency-key py-2.5 rounded-xl text-xs font-bold font-mono">GBP (UK)</button>
+                <button onclick="setSendCurrency('USD')" id="curr-USD" class="currency-key py-2.5 rounded-xl text-xs font-bold font-mono">USD (USA)</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Cash Received Amount</label>
+                <input type="number" id="sendAmount" value="2500" oninput="calculateRates()" class="w-full px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold text-gray-800">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Destination Branch Corridor</label>
+                <select id="destCurrency" onchange="calculateRates()" class="w-full px-4 py-3.5 inset-input rounded-xl text-xs font-bold">
+                  <option value="GMD">The Gambia — Banjul / Serrekunda (GMD)</option>
+                  <option value="XOF_SN">Senegal — Dakar (XOF)</option>
+                  <option value="XOF_ML">Mali — Bamako (XOF)</option>
+                  <option value="XOF_GW">Guinea-Bissau — Bissau (XOF)</option>
+                  <option value="GNF">Guinea-Conakry — Conakry (GNF)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Calculated Breakdown Box -->
+            <div class="p-4 rounded-xl bg-sand-100 border border-sand-200 space-y-2">
+              <div class="flex justify-between text-xs font-semibold text-gray-600">
+                <span>Applied FX Exchange Rate:</span>
+                <span id="fxRateDisplay" class="font-mono font-bold text-gray-800">1 CNY = 9.45 GMD</span>
+              </div>
+              <div class="flex justify-between text-xs font-semibold text-gray-600">
+                <span>Counter Desk Flat Fee:</span>
+                <span id="feeDisplay" class="font-mono font-bold text-gray-800">25.00 CNY</span>
+              </div>
+              <div class="h-px bg-sand-200 my-1"></div>
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold uppercase text-brand-700">Recipient Payout Total:</span>
+                <span id="payoutTotalDisplay" class="font-mono text-xl font-bold text-brand-600">23,388.75 GMD</span>
+              </div>
+            </div>
+
+            <!-- Customer Details -->
+            <div class="grid grid-cols-2 gap-4 pt-2">
+              <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Sender Name & Phone</label>
+                <input type="text" id="senderName" value="Ebrima Sallah (+86 139 1234 5678)" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Recipient Name & Phone</label>
+                <input type="text" id="recipientName" value="Kaddy Sallah (+220 991 2233)" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold">
+              </div>
+            </div>
+
+            <button onclick="issueRemittance()" class="w-full py-4 text-white font-bold skeuo-btn rounded-xl text-sm uppercase tracking-wider">
+              Issue Code & Book Journal Entry
+            </button>
+          </div>
+        </div>
+
+        <!-- Receipt Slip Preview -->
+        <div class="col-span-12 lg:col-span-5">
+          <div class="tactile-card p-6 bg-white space-y-4 sticky top-6">
+            <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Counter Receipt Slip Preview</h2>
+            <div id="receiptContainer" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
+              <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
+                <img src="bantaba.jpg" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
+                <p class="text-[10px] text-gray-500 uppercase tracking-wider">Official Counter Slip</p>
+              </div>
+              <p class="text-center py-4 text-gray-400 italic">No transfer issued in this active session yet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: PAYOUT COUNTER -->
+      <div id="view-payout" class="hidden max-w-2xl mx-auto space-y-6">
+        <div class="tactile-card p-6 space-y-5">
+          <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Redeem Code & Disburse Cash</h2>
+          
+          <p class="text-xs text-gray-500">Test sample active codes: <strong class="font-mono text-brand-700 cursor-pointer" onclick="fillTestCode('BNT-9042-18')">BNT-9042-18</strong> (Gambia) or <strong class="font-mono text-brand-700 cursor-pointer" onclick="fillTestCode('BNT-6102-77')">BNT-6102-77</strong> (Senegal).</p>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Enter 10-Digit Redemption Code</label>
+            <input type="text" id="redemptionCodeInput" placeholder="e.g. BNT-9042-18" class="w-full px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold tracking-widest text-brand-700">
+          </div>
+
+          <button onclick="verifyCode()" class="w-full py-3.5 bg-brand-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider hover:bg-brand-600 transition">
+            Verify Code in Ledger
+          </button>
+
+          <div id="verificationResult" class="hidden p-5 rounded-xl border space-y-3">
+            <!-- Dynamic result populated via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: BENTO ANALYTICS -->
+      <div id="view-analytics" class="hidden space-y-6">
+        <div class="grid grid-cols-12 gap-4">
+          <!-- Hero Volume Tile -->
+          <div class="col-span-12 lg:col-span-8 tactile-card p-6 bg-gradient-to-br from-brand-700 to-brand-900 text-white space-y-4">
+            <p class="text-xs font-bold uppercase tracking-widest text-brand-100">Monthly Processed Volume Across Corridors</p>
+            <p class="font-mono text-4xl font-bold">$1,840,250.00 <span class="text-xs font-sans text-brand-100 font-normal">USD Equiv.</span></p>
+            <div class="grid grid-cols-5 gap-2 pt-4 border-t border-brand-600/50 text-xs font-semibold">
+              <div>
+                <p class="text-brand-100 uppercase text-[9px]">Gambia</p>
+                <p class="font-mono font-bold text-sm">42.5%</p>
+              </div>
+              <div>
+                <p class="text-brand-100 uppercase text-[9px]">Senegal</p>
+                <p class="font-mono font-bold text-sm">28.0%</p>
+              </div>
+              <div>
+                <p class="text-brand-100 uppercase text-[9px]">Mali</p>
+                <p class="font-mono font-bold text-sm">14.2%</p>
+              </div>
+              <div>
+                <p class="text-brand-100 uppercase text-[9px]">Conakry</p>
+                <p class="font-mono font-bold text-sm">10.1%</p>
+              </div>
+              <div>
+                <p class="text-brand-100 uppercase text-[9px]">Bissau</p>
+                <p class="font-mono font-bold text-sm">5.2%</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Circular Metric Tile -->
+          <div class="col-span-12 lg:col-span-4 tactile-card p-6 flex flex-col justify-between">
+            <p class="text-xs font-bold uppercase text-gray-500 tracking-wider">Repeat Recipient Rate</p>
+            <div class="flex items-center justify-between my-2">
+              <span class="font-mono text-3xl font-bold text-brand-700">78.4%</span>
+              <div class="w-16 h-16 rounded-full border-4 border-brand-500 border-t-transparent flex items-center justify-center font-bold text-xs font-mono text-brand-700">
+                78%
+              </div>
+            </div>
+            <p class="text-[11px] text-gray-500 font-medium">Recipient phone match over trailing 30 days.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: GENERAL LEDGER -->
+      <div id="view-ledger" class="hidden space-y-4">
+        <div class="tactile-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Double-Entry Journal Logs</h2>
+            <span class="text-xs font-mono text-gray-500">Status: Balanced Double-Entry</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-mono text-xs">
+              <thead>
+                <tr class="border-b border-gray-200 text-gray-500 uppercase">
+                  <th class="py-2.5 px-3">Timestamp</th>
+                  <th class="py-2.5 px-3">Redemption Code</th>
+                  <th class="py-2.5 px-3">Debit (DR)</th>
+                  <th class="py-2.5 px-3">Credit (CR)</th>
+                  <th class="py-2.5 px-3">Amount</th>
+                  <th class="py-2.5 px-3">Status</th>
+                  <th class="py-2.5 px-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerTableBody" class="divide-y divide-gray-100">
+                <!-- Dynamic rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: TREASURY & VAULT -->
+      <div id="view-treasury" class="hidden space-y-4">
+        <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Regional Counter Vault Balances</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4" id="vaultGrid">
+          <!-- Dynamic Vault Cards -->
+        </div>
+      </div>
+
+      <!-- TAB 6: AUDIT TRAIL LOGS -->
+      <div id="view-audit" class="hidden space-y-4">
+        <div class="tactile-card p-6 space-y-4">
+          <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">System Event Audit Trail</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-mono text-xs">
+              <thead>
+                <tr class="border-b border-gray-200 text-gray-500 uppercase">
+                  <th class="py-2.5 px-3">Time</th>
+                  <th class="py-2.5 px-3">Staff ID</th>
+                  <th class="py-2.5 px-3">Branch</th>
+                  <th class="py-2.5 px-3">Action Event</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody" class="divide-y divide-gray-100">
+                <!-- Dynamic Audit Rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    let activeCurrency = 'CNY';
+    let currentRole = 'CASHIER';
+    let currentStaff = 'TEL-8842';
+    let currentBranch = 'China — Guangzhou Desk';
+
+    let vaults = {
+      GMD: { name: 'Banjul (GMD)', balance: 2450000, curr: 'GMD', symbol: 'D' },
+      XOF_SN: { name: 'Dakar (XOF)', balance: 32100000, curr: 'XOF', symbol: 'XOF' },
+      XOF_ML: { name: 'Bamako (XOF)', balance: 18400000, curr: 'XOF', symbol: 'XOF' },
+      GNF: { name: 'Conakry (GNF)', balance: 240000000, curr: 'GNF', symbol: 'GNF' },
+      XOF_GW: { name: 'Bissau (XOF)', balance: 12800000, curr: 'XOF', symbol: 'XOF' }
+    };
+
+    let auditLogs = [];
+
+    let transactions = [
+      {
+        code: 'BNT-9042-18',
+        amount: '1000 CNY',
+        payoutTotalNum: 9425.00,
+        destCurrKey: 'GMD',
+        payoutTotal: '9,425.00 GMD',
+        sender: 'Modou Camara (+86 138 9988 1122)',
+        recipient: 'Ousman Camara (+220 701 4455)',
+        timestamp: '10:14:02 AM',
+        status: 'UNREDEEMED'
+      },
+      {
+        code: 'BNT-6102-77',
+        amount: '350 GBP',
+        payoutTotalNum: 274750.00,
+        destCurrKey: 'XOF_SN',
+        payoutTotal: '274,750.00 XOF',
+        sender: 'Fatou Sow (+44 7700 900123)',
+        recipient: 'Awa Sow (+221 77 654 3210)',
+        timestamp: '09:48:15 AM',
+        status: 'UNREDEEMED'
+      },
+      {
+        code: 'BNT-4419-02',
+        amount: '500 USD',
+        payoutTotalNum: 4325000.00,
+        destCurrKey: 'GNF',
+        payoutTotal: '4,325,000.00 GNF',
+        sender: 'Amadou Diallo (+1 212 555 0192)',
+        recipient: 'Mamadou Diallo (+224 621 001122)',
+        timestamp: '08:30:44 AM',
+        status: 'REDEEMED'
+      }
+    ];
+
+    const RATES = {
+      CNY: { GMD: 9.45, XOF_SN: 84.20, XOF_ML: 84.20, XOF_GW: 84.20, GNF: 1190.00 },
+      GBP: { GMD: 88.50, XOF_SN: 785.00, XOF_ML: 785.00, XOF_GW: 785.00, GNF: 11200.00 },
+      USD: { GMD: 68.20, XOF_SN: 605.00, XOF_ML: 605.00, XOF_GW: 605.00, GNF: 8650.00 }
+    };
+
+    function initSystem() {
+      logAudit('SYSTEM_INIT', 'Terminal booted');
+      updateLedgerTable();
+      renderVaults();
+    }
+
+    function logAudit(action, details) {
+      auditLogs.unshift({
+        time: new Date().toLocaleTimeString(),
+        staff: currentStaff,
+        branch: currentBranch,
+        event: `${action}: ${details}`
+      });
+      updateAuditTable();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      currentStaff = document.getElementById('staffId').value;
+      currentRole = document.getElementById('roleSelect').value;
+      currentBranch = document.getElementById('branchSelect').options[document.getElementById('branchSelect').selectedIndex].text;
+
+      document.getElementById('activeStaffDisplay').innerText = currentStaff;
+      document.getElementById('activeBranchDisplay').innerText = currentBranch;
+      document.getElementById('roleBadge').innerText = currentRole;
+
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('mainApp').classList.remove('hidden');
+
+      logAudit('AUTHENTICATION', `Opened counter with role ${currentRole}`);
+      applyRolePermissions();
+      calculateRates();
+    }
+
+    function handleLogout() {
+      logAudit('LOGOUT', 'Counter session closed');
+      document.getElementById('mainApp').classList.add('hidden');
+      document.getElementById('loginOverlay').classList.remove('hidden');
+    }
+
+    function applyRolePermissions() {
+      document.querySelectorAll('.role-admin, .role-supervisor, .role-compliance').forEach(el => el.classList.add('hidden'));
+
+      if (currentRole === 'ADMIN') {
+        document.querySelectorAll('.role-admin, .role-supervisor, .role-compliance').forEach(el => el.classList.remove('hidden'));
+      } else if (currentRole === 'SUPERVISOR') {
+        document.querySelectorAll('.role-supervisor').forEach(el => el.classList.remove('hidden'));
+      } else if (currentRole === 'COMPLIANCE') {
+        document.querySelectorAll('.role-compliance').forEach(el => el.classList.remove('hidden'));
+      }
+    }
+
+    function switchTab(tab) {
+      ['send', 'payout', 'analytics', 'ledger', 'treasury', 'audit'].forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        if (view) view.classList.add('hidden');
+        if (btn) {
+          btn.classList.remove('border-brand-500', 'text-brand-700');
+          btn.classList.add('border-transparent', 'text-gray-500');
+        }
+      });
+
+      document.getElementById(`view-${tab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-${tab}`);
+      activeBtn.classList.remove('border-transparent', 'text-gray-500');
+      activeBtn.classList.add('border-brand-500', 'text-brand-700');
+    }
+
+    function setSendCurrency(curr) {
+      activeCurrency = curr;
+      ['CNY', 'GBP', 'USD'].forEach(c => {
+        document.getElementById(`curr-${c}`).classList.remove('active');
+      });
+      document.getElementById(`curr-${curr}`).classList.add('active');
+      calculateRates();
+    }
+
+    function calculateRates() {
+      const amount = parseFloat(document.getElementById('sendAmount').value) || 0;
+      const destCurrKey = document.getElementById('destCurrency').value;
+      const rate = RATES[activeCurrency][destCurrKey];
+      const fee = activeCurrency === 'CNY' ? 25 : (activeCurrency === 'GBP' ? 3 : 5);
+
+      const netAmount = Math.max(0, amount - fee);
+      const payoutTotal = netAmount * rate;
+
+      const currLabels = { GMD: 'GMD', XOF_SN: 'XOF', XOF_ML: 'XOF', XOF_GW: 'XOF', GNF: 'GNF' };
+      const displaySymbol = currLabels[destCurrKey];
+
+      document.getElementById('fxRateDisplay').innerText = `1 ${activeCurrency} = ${rate} ${displaySymbol}`;
+      document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} ${activeCurrency}`;
+      document.getElementById('payoutTotalDisplay').innerText = `${payoutTotal.toLocaleString('en-US', {minimumFractionDigits: 2})} ${displaySymbol}`;
+    }
+
+    function issueRemittance() {
+      const amount = parseFloat(document.getElementById('sendAmount').value) || 0;
+      const fee = activeCurrency === 'CNY' ? 25 : (activeCurrency === 'GBP' ? 3 : 5);
+      const sender = document.getElementById('senderName').value.trim();
+      const recipient = document.getElementById('recipientName').value.trim();
+
+      if (amount <= fee) {
+        alert('Validation Error: Cash received must exceed the flat counter fee.');
+        return;
+      }
+      if (!sender || !recipient) {
+        alert('Validation Error: Both sender and recipient details are required.');
+        return;
+      }
+
+      const destCurrKey = document.getElementById('destCurrency').value;
+      const rate = RATES[activeCurrency][destCurrKey];
+      const payoutNum = (amount - fee) * rate;
+      const code = 'BNT-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(10 + Math.random() * 90);
+      const payoutTotalStr = document.getElementById('payoutTotalDisplay').innerText;
+
+      const tx = {
+        code,
+        amount: `${amount} ${activeCurrency}`,
+        payoutTotalNum: payoutNum,
+        destCurrKey,
+        payoutTotal: payoutTotalStr,
+        sender,
+        recipient,
+        timestamp: new Date().toLocaleTimeString(),
+        status: 'UNREDEEMED'
+      };
+
+      transactions.unshift(tx);
+      logAudit('ISSUE_CODE', `Issued code ${code} for ${payoutTotalStr}`);
+
+      document.getElementById('receiptContainer').innerHTML = `
+        <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
+          <img src="bantaba.jpg" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
+          <p class="text-[10px] text-gray-500 uppercase tracking-wider">Official Counter Slip</p>
+        </div>
+        <div class="py-2 text-center bg-brand-50 rounded border border-brand-100">
+          <p class="text-[10px] text-gray-500 uppercase">REDEMPTION CODE</p>
+          <p class="font-bold text-lg text-brand-700 tracking-widest">${code}</p>
+        </div>
+        <div class="space-y-1 text-[11px]">
+          <p><strong>Sender:</strong> ${sender}</p>
+          <p><strong>Recipient:</strong> ${recipient}</p>
+          <p><strong>Collected:</strong> ${amount} ${activeCurrency}</p>
+          <p><strong>Payout Total:</strong> ${payoutTotalStr}</p>
+        </div>
+        <button onclick="window.print()" class="w-full py-2 bg-sand-200 text-gray-800 rounded font-bold text-[10px] uppercase tracking-wider">Print Receipt Slip</button>
+      `;
+
+      updateLedgerTable();
+    }
+
+    function fillTestCode(code) {
+      document.getElementById('redemptionCodeInput').value = code;
+    }
+
+    function verifyCode() {
+      const input = document.getElementById('redemptionCodeInput').value.trim();
+      const resDiv = document.getElementById('verificationResult');
+      const tx = transactions.find(t => t.code === input);
+
+      resDiv.classList.remove('hidden', 'bg-red-50', 'border-red-200', 'bg-emerald-50', 'border-emerald-200', 'bg-amber-50', 'border-amber-200');
+
+      if (!tx) {
+        resDiv.classList.add('bg-red-50', 'border-red-200');
+        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">Code not found in central ledger.</p>`;
+        return;
+      }
+
+      if (tx.status === 'REDEEMED') {
+        resDiv.classList.add('bg-amber-50', 'border-amber-200');
+        resDiv.innerHTML = `<p class="text-xs font-bold text-amber-700">Code Already Paid Out.</p>`;
+        return;
+      }
+
+      if (tx.status === 'CANCELLED') {
+        resDiv.classList.add('bg-red-50', 'border-red-200');
+        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">Transfer Cancelled by Supervisor.</p>`;
+        return;
+      }
+
+      const targetVault = vaults[tx.destCurrKey];
+      if (targetVault && targetVault.balance < tx.payoutTotalNum) {
+        resDiv.classList.add('bg-red-50', 'border-red-200');
+        resDiv.innerHTML = `
+          <p class="text-xs font-bold text-red-700">Vault Balance Deficit!</p>
+          <p class="text-xs text-gray-600">Branch vault lacks cash to disburse ${tx.payoutTotal}. Supervisor top-up required.</p>
+        `;
+        return;
+      }
+
+      resDiv.classList.add('bg-emerald-50', 'border-emerald-200');
+      resDiv.innerHTML = `
+        <p class="text-xs font-bold text-emerald-800">VALID REDEMPTION CODE MATCH</p>
+        <p class="text-xs text-gray-700"><strong>Recipient:</strong> ${tx.recipient}</p>
+        <p class="text-xs text-gray-700"><strong>Payout Total:</strong> ${tx.payoutTotal}</p>
+        <button onclick="disburseCash('${tx.code}')" class="w-full py-2 bg-emerald-600 text-white rounded font-bold text-xs uppercase mt-2">Release Cash & Update Ledger</button>
+      `;
+    }
+
+    function disburseCash(code) {
+      const tx = transactions.find(t => t.code === code);
+      if (tx) {
+        tx.status = 'REDEEMED';
+        if (vaults[tx.destCurrKey]) {
+          vaults[tx.destCurrKey].balance -= tx.payoutTotalNum;
+        }
+        logAudit('CASH_PAYOUT', `Disbursed ${tx.payoutTotal} for code ${code}`);
+        alert('Cash Disbursement Logged. Branch vault and ledger updated.');
+        document.getElementById('verificationResult').classList.add('hidden');
+        updateLedgerTable();
+        renderVaults();
+      }
+    }
+
+    function cancelTransfer(code) {
+      if (confirm(`Cancel transfer ${code}? Reversing entries will be booked.`)) {
+        const tx = transactions.find(t => t.code === code);
+        if (tx) {
+          tx.status = 'CANCELLED';
+          logAudit('CANCEL_TRANSFER', `Cancelled code ${code}`);
+          updateLedgerTable();
+        }
+      }
+    }
+
+    function renderVaults() {
+      const container = document.getElementById('vaultGrid');
+      container.innerHTML = Object.keys(vaults).map(k => {
+        const v = vaults[k];
+        return `
+          <div class="tactile-card p-4 space-y-2">
+            <p class="text-[10px] font-bold text-gray-500 uppercase">${v.name}</p>
+            <p class="font-mono text-lg font-bold text-gray-800">${v.symbol} ${v.balance.toLocaleString()}</p>
+            <span class="inline-block px-2 py-0.5 rounded text-[9px] font-bold ${v.balance < 500000 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+              ${v.balance < 500000 ? 'Low Float' : 'Optimal'}
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateLedgerTable() {
+      const tbody = document.getElementById('ledgerTableBody');
+      tbody.innerHTML = transactions.map(t => `
+        <tr>
+          <td class="py-2.5 px-3">${t.timestamp}</td>
+          <td class="py-2.5 px-3 font-bold text-brand-700">${t.code}</td>
+          <td class="py-2.5 px-3">1010 CASH_VAULT</td>
+          <td class="py-2.5 px-3">2010 CUST_PAYABLE</td>
+          <td class="py-2.5 px-3 font-bold">${t.amount}</td>
+          <td class="py-2.5 px-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${
+              t.status === 'REDEEMED' ? 'bg-gray-100 text-gray-600' : 
+              (t.status === 'CANCELLED' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-800')
+            }">${t.status}</span>
+          </td>
+          <td class="py-2.5 px-3">
+            ${t.status === 'UNREDEEMED' ? `<button onclick="cancelTransfer('${t.code}')" class="text-[10px] text-red-600 underline font-bold">Cancel</button>` : '-'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function updateAuditTable() {
+      const tbody = document.getElementById('auditTableBody');
+      tbody.innerHTML = auditLogs.map(a => `
+        <tr>
+          <td class="py-2 px-3">${a.time}</td>
+          <td class="py-2 px-3 font-bold">${a.staff}</td>
+          <td class="py-2 px-3">${a.branch}</td>
+          <td class="py-2 px-3 text-brand-700 font-semibold">${a.event}</td>
+        </tr>
+      `).join('');
+    }
+  </script>
+</body>
+</html>
