@@ -90,6 +90,10 @@
     }
 
     @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
       body * {
         visibility: hidden !important;
       }
@@ -108,6 +112,15 @@
         border: 1px dashed #333 !important;
         box-shadow: none !important;
         color: black !important;
+      }
+      #printableReceipt img {
+        display: block !important;
+        max-height: 48px !important;
+        width: auto !important;
+        margin: 0 auto 6px auto !important;
+        visibility: visible !important;
+        mix-blend-mode: normal !important;
+        opacity: 1 !important;
       }
       .no-print {
         display: none !important;
@@ -184,7 +197,7 @@
       <!-- TOP SESSION HEADER -->
       <header class="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between shadow-sm">
         <div class="flex items-center space-x-5">
-          <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply" />
+          <img id="brandHeaderLogo" src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply" />
           <div>
             <span class="font-display text-lg font-bold text-brand-700 leading-none">Bantaba</span>
             <span class="block text-[10px] text-gray-500 font-medium">Home, within reach.</span>
@@ -308,7 +321,7 @@
               <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Counter Receipt Slip</h2>
               <div id="receiptContainer" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
                 <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
-                  <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
+                  <img id="previewReceiptLogo" src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
                   <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Official Counter Receipt</p>
                   <p class="text-[9px] text-gray-400">Home, within reach.</p>
                 </div>
@@ -626,9 +639,19 @@
       localStorage.setItem('bantaba_audit', JSON.stringify(auditLogs));
     }
 
+    function getBrandLogoUrl() {
+      const headerImg = document.getElementById('brandHeaderLogo');
+      if (headerImg && headerImg.src) return headerImg.src;
+      return 'assets/images/logo.png';
+    }
+
     function initSystem() {
       if (auditLogs.length === 0) {
         logAudit('INITIALIZATION', 'Terminal counter operational');
+      }
+      const previewImg = document.getElementById('previewReceiptLogo');
+      if (previewImg) {
+        previewImg.src = getBrandLogoUrl();
       }
       updateLedgerTable();
       renderVaults();
@@ -778,10 +801,12 @@
       saveState();
       playChime(true);
 
+      const brandLogoUrl = getBrandLogoUrl();
+
       document.getElementById('receiptContainer').innerHTML = `
         <div id="printableReceipt" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
           <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
-            <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
+            <img src="${brandLogoUrl}" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
             <p class="text-[11px] text-gray-800 uppercase tracking-wider font-bold">Official Counter Receipt</p>
             <p class="text-[9px] text-gray-500">Home, within reach.</p>
             <p class="text-[9px] text-gray-400 font-mono">${new Date().toLocaleString()}</p>
