@@ -16,6 +16,7 @@
               500: '#1b6b38',
               600: '#15542c',
               700: '#103f21',
+              800: '#0c2e18',
               900: '#092111',
             },
             sand: {
@@ -37,7 +38,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -87,6 +88,32 @@
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
       transform: translateY(2px);
     }
+
+    /* THERMAL POS RECEIPT PRINTER STYLING */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #printableReceipt, #printableReceipt * {
+        visibility: visible !important;
+      }
+      #printableReceipt {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 16px !important;
+        background: white !important;
+        border: 1px dashed #333 !important;
+        box-shadow: none !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased" onload="initSystem()">
@@ -108,7 +135,7 @@
         </div>
         <div>
           <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Terminal PIN</label>
-          <input type="password" value="1234" required class="w-full px-4 py-3 inset-input rounded-xl text-sm font-semibold">
+          <input type="password" id="terminalPin" value="1234" required class="w-full px-4 py-3 inset-input rounded-xl text-sm font-semibold">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
@@ -148,6 +175,7 @@
 
   <!-- MAIN APPLICATION INTERFACE -->
   <div id="mainApp" class="hidden min-h-screen flex flex-col">
+
     <!-- TOP SESSION HEADER -->
     <header class="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between shadow-sm">
       <div class="flex items-center space-x-5">
@@ -162,7 +190,10 @@
         </div>
       </div>
 
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-3">
+        <button onclick="resetDemoData()" title="Reset all data to default demonstration state" class="px-2.5 py-1 text-[11px] font-bold text-gray-500 hover:text-brand-700 bg-sand-100 hover:bg-sand-200 rounded-lg transition border border-sand-200">
+          Reset Demo
+        </button>
         <span id="roleBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-brand-50 text-brand-700 border border-brand-100 uppercase tracking-wider">
           Teller / Cashier
         </span>
@@ -173,23 +204,23 @@
     </header>
 
     <!-- NAVIGATION TABS -->
-    <nav class="bg-white border-b border-gray-200 px-6 flex space-x-2">
-      <button onclick="switchTab('send')" id="tab-send" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-brand-500 text-brand-700">
+    <nav class="bg-white border-b border-gray-200 px-6 flex space-x-2 overflow-x-auto">
+      <button onclick="switchTab('send')" id="tab-send" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-brand-500 text-brand-700 whitespace-nowrap">
         Cash Desk (Send)
       </button>
-      <button onclick="switchTab('payout')" id="tab-payout" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+      <button onclick="switchTab('payout')" id="tab-payout" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
         Payout Counter (Cash-Out)
       </button>
-      <button onclick="switchTab('analytics')" id="tab-analytics" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+      <button onclick="switchTab('analytics')" id="tab-analytics" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
         Analytics (Bento Grid)
       </button>
-      <button onclick="switchTab('ledger')" id="tab-ledger" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+      <button onclick="switchTab('ledger')" id="tab-ledger" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
         General Ledger
       </button>
-      <button onclick="switchTab('treasury')" id="tab-treasury" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+      <button onclick="switchTab('treasury')" id="tab-treasury" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
         Branch Vaults & Float
       </button>
-      <button onclick="switchTab('audit')" id="tab-audit" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800">
+      <button onclick="switchTab('audit')" id="tab-audit" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
         Audit Trails
       </button>
     </nav>
@@ -285,11 +316,11 @@
         <div class="tactile-card p-6 space-y-5">
           <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Redeem Code & Disburse Cash</h2>
           
-          <p class="text-xs text-gray-500">Test sample active codes: <strong class="font-mono text-brand-700 cursor-pointer" onclick="fillTestCode('BNT-9042-18')">BNT-9042-18</strong> (Gambia) or <strong class="font-mono text-brand-700 cursor-pointer" onclick="fillTestCode('BNT-6102-77')">BNT-6102-77</strong> (Senegal).</p>
+          <p class="text-xs text-gray-500">Test sample active codes: <strong class="font-mono text-brand-700 cursor-pointer underline" onclick="fillTestCode('BNT-9042-18')">BNT-9042-18</strong> (Gambia) or <strong class="font-mono text-brand-700 cursor-pointer underline" onclick="fillTestCode('BNT-6102-77')">BNT-6102-77</strong> (Senegal).</p>
 
           <div>
             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Enter 10-Digit Redemption Code</label>
-            <input type="text" id="redemptionCodeInput" placeholder="e.g. BNT-9042-18" class="w-full px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold tracking-widest text-brand-700">
+            <input type="text" id="redemptionCodeInput" onkeydown="if(event.key==='Enter') verifyCode()" placeholder="e.g. BNT-9042-18" class="w-full px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold tracking-widest text-brand-700 uppercase">
           </div>
 
           <button onclick="verifyCode()" class="w-full py-3.5 bg-brand-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider hover:bg-brand-600 transition">
@@ -306,29 +337,13 @@
       <div id="view-analytics" class="hidden space-y-6">
         <div class="grid grid-cols-12 gap-4">
           <div class="col-span-12 lg:col-span-8 tactile-card p-6 bg-gradient-to-br from-brand-700 to-brand-900 text-white space-y-4">
-            <p class="text-xs font-bold uppercase tracking-widest text-brand-100">Monthly Processed Volume Across Corridors</p>
-            <p class="font-mono text-4xl font-bold">$1,840,250.00 <span class="text-xs font-sans text-brand-100 font-normal">USD Equiv.</span></p>
-            <div class="grid grid-cols-5 gap-2 pt-4 border-t border-brand-600/50 text-xs font-semibold">
-              <div>
-                <p class="text-brand-100 uppercase text-[9px]">Gambia</p>
-                <p class="font-mono font-bold text-sm">42.5%</p>
-              </div>
-              <div>
-                <p class="text-brand-100 uppercase text-[9px]">Senegal</p>
-                <p class="font-mono font-bold text-sm">28.0%</p>
-              </div>
-              <div>
-                <p class="text-brand-100 uppercase text-[9px]">Mali</p>
-                <p class="font-mono font-bold text-sm">14.2%</p>
-              </div>
-              <div>
-                <p class="text-brand-100 uppercase text-[9px]">Conakry</p>
-                <p class="font-mono font-bold text-sm">10.1%</p>
-              </div>
-              <div>
-                <p class="text-brand-100 uppercase text-[9px]">Bissau</p>
-                <p class="font-mono font-bold text-sm">5.2%</p>
-              </div>
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-bold uppercase tracking-widest text-brand-100">Live Processed Volume Across Corridors</p>
+              <span class="text-[10px] font-mono bg-brand-600/60 px-2 py-0.5 rounded text-brand-100">Real-Time Ledger</span>
+            </div>
+            <p class="font-mono text-4xl font-bold" id="analyticsTotalVolume">$1,840,250.00 <span class="text-xs font-sans text-brand-100 font-normal">USD Equiv.</span></p>
+            <div class="grid grid-cols-5 gap-2 pt-4 border-t border-brand-600/50 text-xs font-semibold" id="corridorBreakdownGrid">
+              <!-- Dynamically rendered corridor volume bars -->
             </div>
           </div>
 
@@ -342,15 +357,47 @@
             </div>
             <p class="text-[11px] text-gray-500 font-medium">Recipient phone match over trailing 30 days.</p>
           </div>
+
+          <!-- Secondary Bento Stats Cards -->
+          <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2">
+            <p class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Total Ledger Transactions</p>
+            <p class="font-mono text-2xl font-bold text-gray-800" id="statTotalTx">0</p>
+            <p class="text-[11px] text-gray-500">Across all branch cash desks.</p>
+          </div>
+
+          <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2">
+            <p class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Active Unredeemed Floats</p>
+            <p class="font-mono text-2xl font-bold text-emerald-700" id="statUnredeemedTx">0</p>
+            <p class="text-[11px] text-gray-500">Awaiting counter redemption.</p>
+          </div>
+
+          <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2">
+            <p class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Disbursed / Redeemed</p>
+            <p class="font-mono text-2xl font-bold text-brand-600" id="statRedeemedTx">0</p>
+            <p class="text-[11px] text-gray-500">Successfully closed counter slips.</p>
+          </div>
         </div>
       </div>
 
       <!-- TAB 4: GENERAL LEDGER -->
       <div id="view-ledger" class="hidden space-y-4">
         <div class="tactile-card p-6 space-y-4">
-          <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Double-Entry Journal Logs</h2>
-            <span class="text-xs font-mono text-gray-500">Status: Balanced Double-Entry</span>
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Double-Entry Journal Logs</h2>
+              <span class="text-xs font-mono text-gray-500">Status: Balanced Double-Entry</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <select id="ledgerFilterSelect" onchange="updateLedgerTable()" class="px-3 py-1.5 inset-input rounded-lg text-xs font-semibold">
+                <option value="ALL">All Entries</option>
+                <option value="UNREDEEMED">Unredeemed Only</option>
+                <option value="REDEEMED">Redeemed Only</option>
+                <option value="CANCELLED">Cancelled Only</option>
+              </select>
+              <button onclick="exportLedgerCSV()" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-bold transition flex items-center space-x-1">
+                <span>Export CSV</span>
+              </button>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left font-mono text-xs">
@@ -375,7 +422,12 @@
 
       <!-- TAB 5: TREASURY & VAULT -->
       <div id="view-treasury" class="hidden space-y-4">
-        <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Regional Counter Vault Balances</h2>
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Regional Counter Vault Balances</h2>
+          <button onclick="openTopUpModal()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition">
+            + Inject Vault Float
+          </button>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4" id="vaultGrid">
           <!-- Dynamic Vault Cards -->
         </div>
@@ -384,7 +436,12 @@
       <!-- TAB 6: AUDIT TRAIL LOGS -->
       <div id="view-audit" class="hidden space-y-4">
         <div class="tactile-card p-6 space-y-4">
-          <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">System Event Audit Trail</h2>
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">System Event Audit Trail</h2>
+            <button onclick="exportAuditCSV()" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-bold transition">
+              Export Audit CSV
+            </button>
+          </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left font-mono text-xs">
               <thead>
@@ -406,13 +463,40 @@
     </main>
   </div>
 
+  <!-- VAULT TOP-UP MODAL (SUPERVISOR & ADMIN) -->
+  <div id="topUpModal" class="hidden fixed inset-0 z-50 bg-sand-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="tactile-card w-full max-w-sm p-6 bg-white space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold uppercase text-gray-800">Inject Vault Float</h3>
+        <button onclick="closeTopUpModal()" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Target Regional Vault</label>
+        <select id="topUpVaultSelect" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold">
+          <option value="GMD">Banjul (GMD)</option>
+          <option value="XOF_SN">Dakar (XOF)</option>
+          <option value="XOF_ML">Bamako (XOF)</option>
+          <option value="GNF">Conakry (GNF)</option>
+          <option value="XOF_GW">Bissau (XOF)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Top-Up Cash Amount</label>
+        <input type="number" id="topUpAmountInput" value="500000" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold">
+      </div>
+      <button onclick="executeVaultTopUp()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition">
+        Confirm Float Top-Up
+      </button>
+    </div>
+  </div>
+
   <script>
     let activeCurrency = 'CNY';
     let currentRole = 'CASHIER';
     let currentStaff = 'TEL-8842';
     let currentBranch = 'China — Guangzhou Desk';
 
-    let vaults = {
+    const DEFAULT_VAULTS = {
       GMD: { name: 'Banjul (GMD)', balance: 2450000, curr: 'GMD', symbol: 'D' },
       XOF_SN: { name: 'Dakar (XOF)', balance: 32100000, curr: 'XOF', symbol: 'XOF' },
       XOF_ML: { name: 'Bamako (XOF)', balance: 18400000, curr: 'XOF', symbol: 'XOF' },
@@ -420,12 +504,13 @@
       XOF_GW: { name: 'Bissau (XOF)', balance: 12800000, curr: 'XOF', symbol: 'XOF' }
     };
 
-    let auditLogs = [];
-
-    let transactions = [
+    const DEFAULT_TRANSACTIONS = [
       {
         code: 'BNT-9042-18',
         amount: '1000 CNY',
+        originAmount: 1000,
+        originCurr: 'CNY',
+        fee: 25,
         payoutTotalNum: 9425.00,
         destCurrKey: 'GMD',
         payoutTotal: '9,425.00 GMD',
@@ -437,6 +522,9 @@
       {
         code: 'BNT-6102-77',
         amount: '350 GBP',
+        originAmount: 350,
+        originCurr: 'GBP',
+        fee: 3,
         payoutTotalNum: 274750.00,
         destCurrKey: 'XOF_SN',
         payoutTotal: '274,750.00 XOF',
@@ -448,6 +536,9 @@
       {
         code: 'BNT-4419-02',
         amount: '500 USD',
+        originAmount: 500,
+        originCurr: 'USD',
+        fee: 5,
         payoutTotalNum: 4325000.00,
         destCurrKey: 'GNF',
         payoutTotal: '4,325,000.00 GNF',
@@ -458,16 +549,75 @@
       }
     ];
 
+    let vaults = JSON.parse(localStorage.getItem('bantaba_vaults')) || JSON.parse(JSON.stringify(DEFAULT_VAULTS));
+    let transactions = JSON.parse(localStorage.getItem('bantaba_txs')) || JSON.parse(JSON.stringify(DEFAULT_TRANSACTIONS));
+    let auditLogs = JSON.parse(localStorage.getItem('bantaba_audit')) || [];
+
     const RATES = {
       CNY: { GMD: 9.45, XOF_SN: 84.20, XOF_ML: 84.20, XOF_GW: 84.20, GNF: 1190.00 },
       GBP: { GMD: 88.50, XOF_SN: 785.00, XOF_ML: 785.00, XOF_GW: 785.00, GNF: 11200.00 },
       USD: { GMD: 68.20, XOF_SN: 605.00, XOF_ML: 605.00, XOF_GW: 605.00, GNF: 8650.00 }
     };
 
+    // Synthesized POS audio feedback
+    function playChime(success = true) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (success) {
+          osc.frequency.setValueAtTime(587.33, now); // D5
+          osc.frequency.setValueAtTime(880.00, now + 0.1); // A5
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else {
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.setValueAtTime(240, now + 0.1);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        }
+      } catch (e) {
+        // AudioContext ignored if blocked
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem('bantaba_vaults', JSON.stringify(vaults));
+      localStorage.setItem('bantaba_txs', JSON.stringify(transactions));
+      localStorage.setItem('bantaba_audit', JSON.stringify(auditLogs));
+    }
+
+    function resetDemoData() {
+      if (confirm('Reset system data to initial demonstration state?')) {
+        vaults = JSON.parse(JSON.stringify(DEFAULT_VAULTS));
+        transactions = JSON.parse(JSON.stringify(DEFAULT_TRANSACTIONS));
+        auditLogs = [];
+        saveState();
+        logAudit('SYSTEM_RESET', 'Demo state reinitialized');
+        updateLedgerTable();
+        renderVaults();
+        updateAnalytics();
+      }
+    }
+
     function initSystem() {
-      logAudit('SYSTEM_INIT', 'Terminal booted');
+      if (auditLogs.length === 0) {
+        logAudit('SYSTEM_INIT', 'Terminal booted');
+      }
       updateLedgerTable();
       renderVaults();
+      updateAnalytics();
     }
 
     function logAudit(action, details) {
@@ -477,12 +627,13 @@
         branch: currentBranch,
         event: `${action}: ${details}`
       });
+      saveState();
       updateAuditTable();
     }
 
     function handleLogin(e) {
       e.preventDefault();
-      currentStaff = document.getElementById('staffId').value;
+      currentStaff = document.getElementById('staffId').value || 'TEL-8842';
       currentRole = document.getElementById('roleSelect').value;
       currentBranch = document.getElementById('branchSelect').options[document.getElementById('branchSelect').selectedIndex].text;
 
@@ -496,6 +647,7 @@
       logAudit('AUTHENTICATION', `Opened counter with role ${currentRole}`);
       applyRolePermissions();
       calculateRates();
+      updateAnalytics();
     }
 
     function handleLogout() {
@@ -529,8 +681,14 @@
 
       document.getElementById(`view-${tab}`).classList.remove('hidden');
       const activeBtn = document.getElementById(`tab-${tab}`);
-      activeBtn.classList.remove('border-transparent', 'text-gray-500');
-      activeBtn.classList.add('border-brand-500', 'text-brand-700');
+      if (activeBtn) {
+        activeBtn.classList.remove('border-transparent', 'text-gray-500');
+        activeBtn.classList.add('border-brand-500', 'text-brand-700');
+      }
+
+      if (tab === 'analytics') updateAnalytics();
+      if (tab === 'ledger') updateLedgerTable();
+      if (tab === 'treasury') renderVaults();
     }
 
     function setSendCurrency(curr) {
@@ -566,10 +724,12 @@
       const recipient = document.getElementById('recipientName').value.trim();
 
       if (amount <= fee) {
+        playChime(false);
         alert('Validation Error: Cash received must exceed the flat counter fee.');
         return;
       }
       if (!sender || !recipient) {
+        playChime(false);
         alert('Validation Error: Both sender and recipient details are required.');
         return;
       }
@@ -583,6 +743,9 @@
       const tx = {
         code,
         amount: `${amount} ${activeCurrency}`,
+        originAmount: amount,
+        originCurr: activeCurrency,
+        fee,
         payoutTotalNum: payoutNum,
         destCurrKey,
         payoutTotal: payoutTotalStr,
@@ -593,74 +756,99 @@
       };
 
       transactions.unshift(tx);
-      logAudit('ISSUE_CODE', `Issued code ${code} for ${payoutTotalStr}`);
+      logAudit('ISSUE_CODE', `Issued code ${code} for ${payoutTotalStr} (${sender} -> ${recipient})`);
+      saveState();
+      playChime(true);
 
       document.getElementById('receiptContainer').innerHTML = `
-        <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
-          <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
-          <p class="text-[10px] text-gray-500 uppercase tracking-wider">Official Counter Slip</p>
+        <div id="printableReceipt" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
+          <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
+            <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
+            <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Official Counter Receipt Slip</p>
+            <p class="text-[9px] text-gray-400 font-mono">${new Date().toLocaleString()}</p>
+          </div>
+          <div class="py-2.5 text-center bg-brand-50 rounded-lg border border-brand-100">
+            <p class="text-[9px] text-gray-500 uppercase font-bold">Redemption Code</p>
+            <p class="font-bold text-lg text-brand-700 tracking-widest">${code}</p>
+          </div>
+          <div class="space-y-1.5 text-[11px] border-b border-sand-200 pb-2">
+            <p class="flex justify-between"><span>Sender:</span> <span class="font-bold">${sender}</span></p>
+            <p class="flex justify-between"><span>Recipient:</span> <span class="font-bold">${recipient}</span></p>
+            <p class="flex justify-between"><span>Branch Issued:</span> <span class="font-bold">${currentBranch}</span></p>
+            <p class="flex justify-between"><span>Cash Collected:</span> <span class="font-bold">${amount} ${activeCurrency}</span></p>
+            <p class="flex justify-between"><span>Desk Fee:</span> <span>${fee.toFixed(2)} ${activeCurrency}</span></p>
+            <p class="flex justify-between text-brand-700 font-bold text-xs pt-1 border-t border-dashed border-sand-300">
+              <span>Payout Total:</span> <span>${payoutTotalStr}</span>
+            </p>
+          </div>
+          <p class="text-[9px] text-center text-gray-400 italic">Recipient must present valid National ID or Passport along with this redemption code at payout counter.</p>
+          <button onclick="window.print()" class="no-print w-full py-2 bg-sand-200 hover:bg-sand-300 text-gray-800 rounded-lg font-bold text-[10px] uppercase tracking-wider transition">
+            🖨️ Print Receipt Slip
+          </button>
         </div>
-        <div class="py-2 text-center bg-brand-50 rounded border border-brand-100">
-          <p class="text-[10px] text-gray-500 uppercase">REDEMPTION CODE</p>
-          <p class="font-bold text-lg text-brand-700 tracking-widest">${code}</p>
-        </div>
-        <div class="space-y-1 text-[11px]">
-          <p><strong>Sender:</strong> ${sender}</p>
-          <p><strong>Recipient:</strong> ${recipient}</p>
-          <p><strong>Collected:</strong> ${amount} ${activeCurrency}</p>
-          <p><strong>Payout Total:</strong> ${payoutTotalStr}</p>
-        </div>
-        <button onclick="window.print()" class="w-full py-2 bg-sand-200 text-gray-800 rounded font-bold text-[10px] uppercase tracking-wider">Print Receipt Slip</button>
       `;
 
       updateLedgerTable();
+      updateAnalytics();
     }
 
     function fillTestCode(code) {
       document.getElementById('redemptionCodeInput').value = code;
+      verifyCode();
     }
 
     function verifyCode() {
-      const input = document.getElementById('redemptionCodeInput').value.trim();
+      const input = document.getElementById('redemptionCodeInput').value.trim().toUpperCase();
       const resDiv = document.getElementById('verificationResult');
       const tx = transactions.find(t => t.code === input);
 
       resDiv.classList.remove('hidden', 'bg-red-50', 'border-red-200', 'bg-emerald-50', 'border-emerald-200', 'bg-amber-50', 'border-amber-200');
 
       if (!tx) {
+        playChime(false);
         resDiv.classList.add('bg-red-50', 'border-red-200');
-        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">Code not found in central ledger.</p>`;
+        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">❌ Code not found in central ledger.</p>`;
         return;
       }
 
       if (tx.status === 'REDEEMED') {
+        playChime(false);
         resDiv.classList.add('bg-amber-50', 'border-amber-200');
-        resDiv.innerHTML = `<p class="text-xs font-bold text-amber-700">Code Already Paid Out.</p>`;
+        resDiv.innerHTML = `<p class="text-xs font-bold text-amber-700">⚠️ Code Already Paid Out on ${tx.timestamp}.</p>`;
         return;
       }
 
       if (tx.status === 'CANCELLED') {
+        playChime(false);
         resDiv.classList.add('bg-red-50', 'border-red-200');
-        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">Transfer Cancelled by Supervisor.</p>`;
+        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">⛔ Transfer Cancelled by Supervisor.</p>`;
         return;
       }
 
       const targetVault = vaults[tx.destCurrKey];
       if (targetVault && targetVault.balance < tx.payoutTotalNum) {
+        playChime(false);
         resDiv.classList.add('bg-red-50', 'border-red-200');
         resDiv.innerHTML = `
-          <p class="text-xs font-bold text-red-700">Vault Balance Deficit!</p>
-          <p class="text-xs text-gray-600">Branch vault lacks cash to disburse ${tx.payoutTotal}. Supervisor top-up required.</p>
+          <p class="text-xs font-bold text-red-700">⚠️ Vault Balance Deficit!</p>
+          <p class="text-xs text-gray-600">Branch vault lacks cash to disburse ${tx.payoutTotal}. Vault has only ${targetVault.symbol} ${targetVault.balance.toLocaleString()}. Supervisor float top-up required.</p>
         `;
         return;
       }
 
       resDiv.classList.add('bg-emerald-50', 'border-emerald-200');
       resDiv.innerHTML = `
-        <p class="text-xs font-bold text-emerald-800">VALID REDEMPTION CODE MATCH</p>
-        <p class="text-xs text-gray-700"><strong>Recipient:</strong> ${tx.recipient}</p>
-        <p class="text-xs text-gray-700"><strong>Payout Total:</strong> ${tx.payoutTotal}</p>
-        <button onclick="disburseCash('${tx.code}')" class="w-full py-2 bg-emerald-600 text-white rounded font-bold text-xs uppercase mt-2">Release Cash & Update Ledger</button>
+        <div class="space-y-2">
+          <p class="text-xs font-bold text-emerald-800">✅ VALID REDEMPTION CODE MATCH</p>
+          <div class="text-xs text-gray-700 font-mono space-y-1">
+            <p><strong>Recipient:</strong> ${tx.recipient}</p>
+            <p><strong>Sender:</strong> ${tx.sender}</p>
+            <p><strong>Payout Total:</strong> <span class="text-brand-700 font-bold">${tx.payoutTotal}</span></p>
+          </div>
+          <button onclick="disburseCash('${tx.code}')" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs uppercase tracking-wider transition">
+            Release Cash & Update Ledger
+          </button>
+        </div>
       `;
     }
 
@@ -671,22 +859,54 @@
         if (vaults[tx.destCurrKey]) {
           vaults[tx.destCurrKey].balance -= tx.payoutTotalNum;
         }
-        logAudit('CASH_PAYOUT', `Disbursed ${tx.payoutTotal} for code ${code}`);
-        alert('Cash Disbursement Logged. Branch vault and ledger updated.');
+        logAudit('CASH_PAYOUT', `Disbursed ${tx.payoutTotal} for code ${code} to ${tx.recipient}`);
+        saveState();
+        playChime(true);
+        alert(`Cash Disbursement Logged. Branch vault and ledger updated.`);
         document.getElementById('verificationResult').classList.add('hidden');
+        document.getElementById('redemptionCodeInput').value = '';
         updateLedgerTable();
         renderVaults();
+        updateAnalytics();
       }
     }
 
     function cancelTransfer(code) {
-      if (confirm(`Cancel transfer ${code}? Reversing entries will be booked.`)) {
+      if (confirm(`Cancel transfer ${code}? Reversing accounting entries will be booked.`)) {
         const tx = transactions.find(t => t.code === code);
         if (tx) {
           tx.status = 'CANCELLED';
           logAudit('CANCEL_TRANSFER', `Cancelled code ${code}`);
+          saveState();
           updateLedgerTable();
+          updateAnalytics();
         }
+      }
+    }
+
+    function openTopUpModal() {
+      document.getElementById('topUpModal').classList.remove('hidden');
+    }
+
+    function closeTopUpModal() {
+      document.getElementById('topUpModal').classList.add('hidden');
+    }
+
+    function executeVaultTopUp() {
+      const vaultKey = document.getElementById('topUpVaultSelect').value;
+      const amt = parseFloat(document.getElementById('topUpAmountInput').value) || 0;
+      if (amt <= 0) {
+        alert('Please enter a valid top-up amount.');
+        return;
+      }
+      if (vaults[vaultKey]) {
+        vaults[vaultKey].balance += amt;
+        logAudit('VAULT_TOPUP', `Injected ${vaults[vaultKey].symbol} ${amt.toLocaleString()} float into ${vaults[vaultKey].name}`);
+        saveState();
+        playChime(true);
+        renderVaults();
+        closeTopUpModal();
+        alert(`Successfully topped up ${vaults[vaultKey].name} with ${vaults[vaultKey].symbol} ${amt.toLocaleString()}`);
       }
     }
 
@@ -694,22 +914,46 @@
       const container = document.getElementById('vaultGrid');
       container.innerHTML = Object.keys(vaults).map(k => {
         const v = vaults[k];
+        const isLow = v.balance < 500000;
         return `
-          <div class="tactile-card p-4 space-y-2">
+          <div class="tactile-card p-4 space-y-2 relative">
             <p class="text-[10px] font-bold text-gray-500 uppercase">${v.name}</p>
             <p class="font-mono text-lg font-bold text-gray-800">${v.symbol} ${v.balance.toLocaleString()}</p>
-            <span class="inline-block px-2 py-0.5 rounded text-[9px] font-bold ${v.balance < 500000 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
-              ${v.balance < 500000 ? 'Low Float' : 'Optimal'}
-            </span>
+            <div class="flex items-center justify-between pt-1">
+              <span class="inline-block px-2 py-0.5 rounded text-[9px] font-bold ${isLow ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+                ${isLow ? 'Low Float' : 'Optimal'}
+              </span>
+              <button onclick="quickTopUp('${k}')" class="role-admin role-supervisor text-[10px] text-brand-600 font-bold hover:underline">
+                + Top Up
+              </button>
+            </div>
           </div>
         `;
       }).join('');
+      applyRolePermissions();
+    }
+
+    function quickTopUp(vaultKey) {
+      document.getElementById('topUpVaultSelect').value = vaultKey;
+      openTopUpModal();
     }
 
     function updateLedgerTable() {
       const tbody = document.getElementById('ledgerTableBody');
-      tbody.innerHTML = transactions.map(t => `
-        <tr>
+      const filter = document.getElementById('ledgerFilterSelect') ? document.getElementById('ledgerFilterSelect').value : 'ALL';
+      
+      const filtered = transactions.filter(t => {
+        if (filter === 'ALL') return true;
+        return t.status === filter;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-gray-400 italic">No entries match the selected filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(t => `
+        <tr class="hover:bg-sand-50/50 transition">
           <td class="py-2.5 px-3">${t.timestamp}</td>
           <td class="py-2.5 px-3 font-bold text-brand-700">${t.code}</td>
           <td class="py-2.5 px-3">1010 CASH_VAULT</td>
@@ -722,7 +966,7 @@
             }">${t.status}</span>
           </td>
           <td class="py-2.5 px-3">
-            ${t.status === 'UNREDEEMED' ? `<button onclick="cancelTransfer('${t.code}')" class="text-[10px] text-red-600 underline font-bold">Cancel</button>` : '-'}
+            ${t.status === 'UNREDEEMED' ? `<button onclick="cancelTransfer('${t.code}')" class="text-[10px] text-red-600 underline font-bold hover:text-red-800">Cancel</button>` : '-'}
           </td>
         </tr>
       `).join('');
@@ -730,14 +974,91 @@
 
     function updateAuditTable() {
       const tbody = document.getElementById('auditTableBody');
+      if (auditLogs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-gray-400 italic">No audit records recorded yet.</td></tr>`;
+        return;
+      }
       tbody.innerHTML = auditLogs.map(a => `
-        <tr>
-          <td class="py-2 px-3">${a.time}</td>
-          <td class="py-2 px-3 font-bold">${a.staff}</td>
-          <td class="py-2 px-3">${a.branch}</td>
+        <tr class="hover:bg-sand-50/50 transition">
+          <td class="py-2 px-3 text-gray-500">${a.time}</td>
+          <td class="py-2 px-3 font-bold text-gray-800">${a.staff}</td>
+          <td class="py-2 px-3 text-gray-600">${a.branch}</td>
           <td class="py-2 px-3 text-brand-700 font-semibold">${a.event}</td>
         </tr>
       `).join('');
+    }
+
+    function updateAnalytics() {
+      // Calculate dynamic values from transactions
+      const totalTx = transactions.length;
+      const unredeemed = transactions.filter(t => t.status === 'UNREDEEMED').length;
+      const redeemed = transactions.filter(t => t.status === 'REDEEMED').length;
+
+      // Approximate USD equivalent volume
+      let totalUsd = 1840000; // baseline monthly volume
+      const usdFx = { CNY: 0.14, GBP: 1.28, USD: 1.0 };
+      transactions.forEach(t => {
+        const factor = usdFx[t.originCurr] || 1;
+        totalUsd += (t.originAmount || 0) * factor;
+      });
+
+      document.getElementById('analyticsTotalVolume').innerHTML = `$${totalUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} <span class="text-xs font-sans text-brand-100 font-normal">USD Equiv.</span>`;
+      document.getElementById('statTotalTx').innerText = totalTx;
+      document.getElementById('statUnredeemedTx').innerText = unredeemed;
+      document.getElementById('statRedeemedTx').innerText = redeemed;
+
+      // Corridor breakdown
+      const corridorCounts = { GMD: 0, XOF_SN: 0, XOF_ML: 0, GNF: 0, XOF_GW: 0 };
+      transactions.forEach(t => {
+        if (corridorCounts[t.destCurrKey] !== undefined) corridorCounts[t.destCurrKey]++;
+      });
+
+      const totalCorridors = Object.values(corridorCounts).reduce((a, b) => a + b, 0) || 1;
+      const corridors = [
+        { name: 'Gambia', key: 'GMD', pct: (corridorCounts.GMD / totalCorridors * 100).toFixed(1) },
+        { name: 'Senegal', key: 'XOF_SN', pct: (corridorCounts.XOF_SN / totalCorridors * 100).toFixed(1) },
+        { name: 'Mali', key: 'XOF_ML', pct: (corridorCounts.XOF_ML / totalCorridors * 100).toFixed(1) },
+        { name: 'Conakry', key: 'GNF', pct: (corridorCounts.GNF / totalCorridors * 100).toFixed(1) },
+        { name: 'Bissau', key: 'XOF_GW', pct: (corridorCounts.XOF_GW / totalCorridors * 100).toFixed(1) },
+      ];
+
+      document.getElementById('corridorBreakdownGrid').innerHTML = corridors.map(c => `
+        <div>
+          <p class="text-brand-100 uppercase text-[9px]">${c.name}</p>
+          <p class="font-mono font-bold text-sm">${c.pct}%</p>
+        </div>
+      `).join('');
+    }
+
+    // CSV EXPORTERS
+    function exportLedgerCSV() {
+      let csv = 'Timestamp,RedemptionCode,DebitAccount,CreditAccount,Amount,Status,Sender,Recipient,PayoutTotal\n';
+      transactions.forEach(t => {
+        csv += `"${t.timestamp}","${t.code}","1010 CASH_VAULT","2010 CUST_PAYABLE","${t.amount}","${t.status}","${t.sender}","${t.recipient}","${t.payoutTotal}"\n`;
+      });
+      downloadCSV(csv, `bantaba_general_ledger_${new Date().toISOString().slice(0,10)}.csv`);
+      logAudit('EXPORT_LEDGER', 'Downloaded General Ledger CSV');
+    }
+
+    function exportAuditCSV() {
+      let csv = 'Timestamp,StaffId,Branch,Event\n';
+      auditLogs.forEach(a => {
+        csv += `"${a.time}","${a.staff}","${a.branch}","${a.event.replace(/"/g, '""')}"\n`;
+      });
+      downloadCSV(csv, `bantaba_audit_trail_${new Date().toISOString().slice(0,10)}.csv`);
+      logAudit('EXPORT_AUDIT', 'Downloaded Event Audit Trail CSV');
+    }
+
+    function downloadCSV(csvContent, fileName) {
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', fileName);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   </script>
 </body>

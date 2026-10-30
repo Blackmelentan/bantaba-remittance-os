@@ -1,0 +1,31 @@
+{
+  "name": "bantaba-remittance-os",
+  "version": "2.6.0",
+  "description": "Bantaba — Cash Remittance Operating System for West African & Global Diaspora Corridors",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node test/system.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blackmelentan/bantaba-remittance-os.git"
+  },
+  "keywords": [
+    "remittance",
+    "cash-counter",
+    "fintech",
+    "teller-pos",
+    "west-africa",
+    "currency-exchange",
+    "double-entry-ledger"
+  ],
+  "author": "Blackmelentan",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}
