@@ -1,4 +1,4 @@
-# 🌳 Bantaba — Cash Remittance Operating System (OS)
+# 🌳 Bantaba  Cash Remittance Operating System (OS)
 
 > **Home, within reach.**  
 > A mission-critical, double-entry cash remittance teller and vault operations system designed for West African payout counters and global diaspora desks (Guangzhou, London, New York).
