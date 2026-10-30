@@ -95,9 +95,9 @@
   <div id="loginOverlay" class="fixed inset-0 z-50 bg-sand-900/60 backdrop-blur-md flex items-center justify-center p-4">
     <div class="tactile-card w-full max-w-md p-8 bg-white space-y-6 text-center">
       
-      <!-- EXACT LOGO EMBEDDED -->
+      <!-- LOGO -->
       <div class="flex flex-col items-center justify-center space-y-2">
-        <img src="bantaba.jpg" alt="Bantaba Logo" class="h-28 w-auto object-contain mix-blend-multiply" />
+        <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-28 w-auto object-contain mix-blend-multiply" />
         <p class="text-[10px] font-mono text-gray-400 uppercase tracking-wider">Cash Remittance Operating System v2.6</p>
       </div>
 
@@ -151,8 +151,7 @@
     <!-- TOP SESSION HEADER -->
     <header class="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between shadow-sm">
       <div class="flex items-center space-x-5">
-        <!-- EXACT BRAND LOGO IMAGE -->
-        <img src="bantaba.jpg" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply" />
+        <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply" />
 
         <div class="h-6 w-px bg-gray-200"></div>
         <div class="flex items-center space-x-2 text-xs font-semibold text-gray-600">
@@ -272,7 +271,7 @@
             <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Counter Receipt Slip Preview</h2>
             <div id="receiptContainer" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
               <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
-                <img src="bantaba.jpg" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
+                <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
                 <p class="text-[10px] text-gray-500 uppercase tracking-wider">Official Counter Slip</p>
               </div>
               <p class="text-center py-4 text-gray-400 italic">No transfer issued in this active session yet.</p>
@@ -298,7 +297,7 @@
           </button>
 
           <div id="verificationResult" class="hidden p-5 rounded-xl border space-y-3">
-            <!-- Dynamic result populated via JS -->
+            <!-- Dynamic result -->
           </div>
         </div>
       </div>
@@ -306,7 +305,6 @@
       <!-- TAB 3: BENTO ANALYTICS -->
       <div id="view-analytics" class="hidden space-y-6">
         <div class="grid grid-cols-12 gap-4">
-          <!-- Hero Volume Tile -->
           <div class="col-span-12 lg:col-span-8 tactile-card p-6 bg-gradient-to-br from-brand-700 to-brand-900 text-white space-y-4">
             <p class="text-xs font-bold uppercase tracking-widest text-brand-100">Monthly Processed Volume Across Corridors</p>
             <p class="font-mono text-4xl font-bold">$1,840,250.00 <span class="text-xs font-sans text-brand-100 font-normal">USD Equiv.</span></p>
@@ -334,7 +332,6 @@
             </div>
           </div>
 
-          <!-- Circular Metric Tile -->
           <div class="col-span-12 lg:col-span-4 tactile-card p-6 flex flex-col justify-between">
             <p class="text-xs font-bold uppercase text-gray-500 tracking-wider">Repeat Recipient Rate</p>
             <div class="flex items-center justify-between my-2">
@@ -600,7 +597,7 @@
 
       document.getElementById('receiptContainer').innerHTML = `
         <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
-          <img src="bantaba.jpg" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
+          <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
           <p class="text-[10px] text-gray-500 uppercase tracking-wider">Official Counter Slip</p>
         </div>
         <div class="py-2 text-center bg-brand-50 rounded border border-brand-100">
