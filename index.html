@@ -10,27 +10,13 @@
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#f2f8f4',
-              100: '#e1efe5',
-              500: '#1b6b38',
-              600: '#15542c',
-              700: '#103f21',
-              800: '#0c2e18',
-              900: '#092111',
-            },
-            sand: {
-              50: '#fcfbfa',
-              100: '#f7f4ef',
-              200: '#ebe4d8',
-              800: '#473d31',
-              900: '#2b241c',
-            }
+            brand: { 50:'#f2f8f4',100:'#e1efe5',500:'#1b6b38',600:'#15542c',700:'#103f21',800:'#0c2e18',900:'#092111' },
+            sand:  { 50:'#fcfbfa',100:'#f7f4ef',200:'#ebe4d8',800:'#473d31',900:'#2b241c' }
           },
           fontFamily: {
-            display: ['Fraunces', 'serif'],
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
+            display:['Fraunces','serif'],
+            sans:['Plus Jakarta Sans','sans-serif'],
+            mono:['JetBrains Mono','monospace']
           }
         }
       }
@@ -39,109 +25,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #F4F6F4;
-      color: #1A211C;
-    }
-    .font-display { font-family: 'Fraunces', serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
-    
-    .tactile-card {
-      background: #FFFFFF;
-      border: 1px solid #E2E8E3;
-      box-shadow: 0 4px 20px -2px rgba(27, 107, 56, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-      border-radius: 16px;
-    }
-    .inset-input {
-      background: #F8FAF8;
-      border: 1.5px solid #D6E2D8;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
-      transition: all 0.15s ease;
-    }
-    .inset-input:focus {
-      background: #FFFFFF;
-      border-color: #1b6b38;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.02), 0 0 0 3px rgba(27, 107, 56, 0.12);
-      outline: none;
-    }
-    .skeuo-btn {
-      background: linear-gradient(180deg, #228245 0%, #15542c 100%);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 4px 12px rgba(21, 84, 44, 0.3);
-      transition: all 0.1s ease;
-    }
-    .skeuo-btn:active {
-      transform: translateY(1.5px);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 2px 4px rgba(21, 84, 44, 0.4);
-    }
-    .currency-key {
-      background: linear-gradient(180deg, #FFFFFF 0%, #F0F4F1 100%);
-      border: 1px solid #C5D5C8;
-      box-shadow: 0 2px 0 #B0C4B4, 0 3px 6px rgba(0,0,0,0.05);
-      transition: all 0.08s ease;
-    }
-    .currency-key:active, .currency-key.active {
-      background: #1b6b38;
-      color: #FFFFFF;
-      border-color: #103f21;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-      transform: translateY(2px);
-    }
-
-    @media print {
-      * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      body * {
-        visibility: hidden !important;
-      }
-      #printableReceipt, #printableReceipt * {
-        visibility: visible !important;
-      }
-      #printableReceipt {
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
-        max-width: 380px !important;
-        margin: 0 auto !important;
-        padding: 18px !important;
-        background: white !important;
-        border: 1px dashed #333 !important;
-        box-shadow: none !important;
-        color: black !important;
-      }
-      #printableReceipt img {
-        display: block !important;
-        max-height: 48px !important;
-        width: auto !important;
-        margin: 0 auto 6px auto !important;
-        visibility: visible !important;
-        mix-blend-mode: normal !important;
-        opacity: 1 !important;
-      }
-      .no-print {
-        display: none !important;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/bantaba.css">
 </head>
 <body class="min-h-screen flex flex-col antialiased" onload="initSystem()">
 
-  <!-- LOGIN OVERLAY SCREEN -->
-  <div id="loginOverlay" class="fixed inset-0 z-50 bg-sand-900/60 backdrop-blur-md flex items-center justify-center p-4">
+  <!-- LOGIN OVERLAY -->
+  <div id="loginOverlay" class="fixed inset-0 z-50 bg-sand-900/60 modal-back flex items-center justify-center p-4">
     <div class="tactile-card w-full max-w-md p-8 bg-white space-y-6 text-center">
-      
-      <!-- BRAND LOGO -->
-      <div class="flex flex-col items-center justify-center space-y-2">
-        <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-28 w-auto object-contain mix-blend-multiply" />
+      <div class="flex flex-col items-center space-y-2">
+        <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-28 w-auto object-contain mix-blend-multiply" onerror="this.style.display='none'"/>
         <h1 class="font-display text-2xl font-bold text-brand-700 tracking-tight">Bantaba</h1>
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-widest">Home, within reach.</p>
         <p class="text-[10px] font-mono text-gray-400 uppercase tracking-wider">Cash Remittance Operating System</p>
       </div>
-
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4 text-left">
         <div>
           <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Staff Identifier</label>
@@ -155,22 +51,21 @@
           <div>
             <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Operating Branch</label>
             <select id="branchSelect" class="w-full px-3 py-3 inset-input rounded-xl text-xs font-semibold">
-              <optgroup label="Collection Desks">
-                <option value="CANTON_GZ">Guangzhou Branch, China</option>
-                <option value="YIWU_CN">Yiwu Branch, China</option>
-                <option value="UK_LDN">London Branch, United Kingdom</option>
-                <option value="UK_MCR">Manchester Branch, United Kingdom</option>
-                <option value="US_NYC">New York Branch, United States</option>
-                <option value="US_ATL">Atlanta Branch, United States</option>
-              </optgroup>
-              <optgroup label="Payout Counters">
-                <option value="GM_BJL">Banjul Counter, The Gambia</option>
-                <option value="GM_SKD">Serrekunda Counter, The Gambia</option>
+              <optgroup label="China"><option value="CANTON_GZ">Guangzhou Branch</option><option value="YIWU_CN">Yiwu Branch</option></optgroup>
+              <optgroup label="United Kingdom"><option value="UK_LDN">London Branch</option><option value="UK_MCR">Manchester Branch</option></optgroup>
+              <optgroup label="United States"><option value="US_NYC">New York Branch</option><option value="US_ATL">Atlanta Branch</option></optgroup>
+              <optgroup label="Europe"><option value="DE_BER">Berlin Branch</option><option value="FR_PAR">Paris Branch</option></optgroup>
+              <optgroup label="Middle East"><option value="AE_DXB">Dubai Counter</option></optgroup>
+              <optgroup label="West Africa">
+                <option value="GM_BJL">Banjul Counter, Gambia</option>
+                <option value="GM_SKD">Serrekunda Counter, Gambia</option>
                 <option value="SN_DKR">Dakar Counter, Senegal</option>
+                <option value="SN_ZIG">Ziguinchor Counter, Senegal</option>
                 <option value="ML_BMK">Bamako Counter, Mali</option>
                 <option value="GW_BSU">Bissau Counter, Guinea-Bissau</option>
-                <option value="GN_CKY">Conakry Counter, Guinea-Conakry</option>
+                <option value="GN_CKY">Conakry Counter, Guinea</option>
               </optgroup>
+              <optgroup label="Southern Africa"><option value="ZM_LSK">Lusaka Counter, Zambia</option></optgroup>
             </select>
           </div>
           <div>
@@ -183,974 +78,260 @@
             </select>
           </div>
         </div>
-
-        <button type="submit" class="w-full py-3.5 text-white font-bold skeuo-btn rounded-xl text-sm uppercase tracking-wider mt-2">
-          Authenticate and Open Counter
-        </button>
+        <button type="submit" class="w-full py-3.5 text-white font-bold skeuo-btn rounded-xl text-sm uppercase tracking-wider">Authenticate and Open Counter</button>
       </form>
     </div>
   </div>
 
-  <!-- MAIN APPLICATION INTERFACE -->
-  <div id="mainApp" class="hidden min-h-screen flex flex-col justify-between">
-    <div>
-      <!-- TOP SESSION HEADER -->
-      <header class="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between shadow-sm">
-        <div class="flex items-center space-x-5">
-          <img id="brandHeaderLogo" src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply" />
-          <div>
-            <span class="font-display text-lg font-bold text-brand-700 leading-none">Bantaba</span>
-            <span class="block text-[10px] text-gray-500 font-medium">Home, within reach.</span>
-          </div>
+  <!-- MAIN APP -->
+  <div id="mainApp" class="hidden min-h-screen flex flex-col">
 
-          <div class="h-6 w-px bg-gray-200"></div>
-          <div class="flex items-center space-x-2 text-xs font-semibold text-gray-600">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span id="activeBranchDisplay">Guangzhou Branch, China</span>
-            <span class="text-gray-300">•</span>
-            <span id="activeStaffDisplay" class="font-mono text-brand-600">TEL-8842</span>
-          </div>
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between shadow-sm">
+      <div class="flex items-center space-x-4">
+        <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply" onerror="this.style.display='none'"/>
+        <div><span class="font-display text-lg font-bold text-brand-700">Bantaba</span><span class="block text-[10px] text-gray-500">Home, within reach.</span></div>
+        <div class="h-6 w-px bg-gray-200"></div>
+        <div class="flex items-center space-x-2 text-xs font-semibold text-gray-600">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-green"></span>
+          <span id="activeBranchDisplay">&mdash;</span>
+          <span class="text-gray-300">&bull;</span>
+          <span id="activeStaffDisplay" class="font-mono text-brand-600">&mdash;</span>
+          <span class="text-gray-300">&bull;</span>
+          <span id="sessionClockDisplay" class="font-mono text-gray-400 text-[10px]">00:00:00</span>
         </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span id="roleBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-brand-50 text-brand-700 border border-brand-100 uppercase">&mdash;</span>
+        <button onclick="handleLogout()" class="text-xs font-bold text-gray-500 hover:text-red-600 transition">Close Session</button>
+      </div>
+    </header>
 
-        <div class="flex items-center space-x-3">
-          <span id="roleBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-brand-50 text-brand-700 border border-brand-100 uppercase tracking-wider">
-            Teller / Cashier
-          </span>
-          <button onclick="handleLogout()" class="text-xs font-bold text-gray-500 hover:text-red-600 transition">
-            Close Session
-          </button>
-        </div>
-      </header>
+    <!-- TABS -->
+    <nav class="bg-white border-b border-gray-200 px-6 flex space-x-1 overflow-x-auto">
+      <button onclick="switchTab('send')" id="tab-send" class="tab-btn active-tab">Cash Collection</button>
+      <button onclick="switchTab('payout')" id="tab-payout" class="tab-btn">Cash Payout</button>
+      <button onclick="switchTab('analytics')" id="tab-analytics" class="tab-btn role-admin role-supervisor">Analytics</button>
+      <button onclick="switchTab('ledger')" id="tab-ledger" class="tab-btn role-admin role-compliance">General Ledger</button>
+      <button onclick="switchTab('treasury')" id="tab-treasury" class="tab-btn role-admin role-supervisor">Treasury</button>
+      <button onclick="switchTab('audit')" id="tab-audit" class="tab-btn role-admin role-compliance">Compliance</button>
+      <button onclick="switchTab('admin')" id="tab-admin" class="tab-btn role-admin">Admin Panel</button>
+    </nav>
 
-      <!-- NAVIGATION TABS -->
-      <nav class="bg-white border-b border-gray-200 px-6 flex space-x-2 overflow-x-auto">
-        <button onclick="switchTab('send')" id="tab-send" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-brand-500 text-brand-700 whitespace-nowrap">
-          Cash Collection Desk
-        </button>
-        <button onclick="switchTab('payout')" id="tab-payout" class="py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
-          Cash Payout Counter
-        </button>
-        <button onclick="switchTab('analytics')" id="tab-analytics" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
-          Executive Analytics
-        </button>
-        <button onclick="switchTab('ledger')" id="tab-ledger" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
-          General Ledger
-        </button>
-        <button onclick="switchTab('treasury')" id="tab-treasury" class="role-admin role-supervisor py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
-          Treasury and Vaults
-        </button>
-        <button onclick="switchTab('audit')" id="tab-audit" class="role-admin role-compliance py-3 px-5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-500 hover:text-gray-800 whitespace-nowrap">
-          Compliance and Audit
-        </button>
-      </nav>
+    <!-- MAIN CONTENT -->
+    <main class="p-6 max-w-7xl w-full mx-auto space-y-6 flex-1">
 
-      <!-- MAIN BODY CONTENT -->
-      <main class="p-6 max-w-7xl w-full mx-auto space-y-6">
-        
-        <!-- TAB 1: CASH COLLECTION DESK (SEND) -->
-        <div id="view-send" class="grid grid-cols-12 gap-6">
-          <div class="col-span-12 lg:col-span-7 space-y-6">
-            <div class="tactile-card p-6 space-y-5">
-              <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Book Remittance and Receive Cash</h2>
-              
-              <!-- Origin Currency Selectors -->
-              <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Collected Currency</label>
-                <div class="grid grid-cols-3 gap-3">
-                  <button onclick="setSendCurrency('CNY')" id="curr-CNY" class="currency-key active py-2.5 rounded-xl text-xs font-bold font-mono">CNY (China)</button>
-                  <button onclick="setSendCurrency('GBP')" id="curr-GBP" class="currency-key py-2.5 rounded-xl text-xs font-bold font-mono">GBP (UK)</button>
-                  <button onclick="setSendCurrency('USD')" id="curr-USD" class="currency-key py-2.5 rounded-xl text-xs font-bold font-mono">USD (USA)</button>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Cash Intake Amount</label>
-                  <input type="number" id="sendAmount" value="2500" oninput="calculateRates()" class="w-full px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold text-gray-800">
-                </div>
-                <div>
-                  <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Payout Destination Corridor</label>
-                  <select id="destCurrency" onchange="calculateRates()" class="w-full px-4 py-3.5 inset-input rounded-xl text-xs font-bold">
-                    <option value="GMD">The Gambia: Banjul and Serrekunda (GMD)</option>
-                    <option value="XOF_SN">Senegal: Dakar (XOF)</option>
-                    <option value="XOF_ML">Mali: Bamako (XOF)</option>
-                    <option value="XOF_GW">Guinea-Bissau: Bissau (XOF)</option>
-                    <option value="GNF">Guinea-Conakry: Conakry (GNF)</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Calculated Breakdown Box -->
-              <div class="p-4 rounded-xl bg-sand-100 border border-sand-200 space-y-2">
-                <div class="flex justify-between text-xs font-semibold text-gray-600">
-                  <span>Applied Exchange Rate</span>
-                  <span id="fxRateDisplay" class="font-mono font-bold text-gray-800">1 CNY = 9.45 GMD</span>
-                </div>
-                <div class="flex justify-between text-xs font-semibold text-gray-600">
-                  <span>Standard Counter Fee</span>
-                  <span id="feeDisplay" class="font-mono font-bold text-gray-800">25.00 CNY</span>
-                </div>
-                <div class="h-px bg-sand-200 my-1"></div>
-                <div class="flex justify-between items-center">
-                  <span class="text-xs font-bold uppercase text-brand-700">Recipient Total Payout</span>
-                  <span id="payoutTotalDisplay" class="font-mono text-xl font-bold text-brand-600">23,388.75 GMD</span>
-                </div>
-              </div>
-
-              <!-- Customer Details -->
-              <div class="grid grid-cols-2 gap-4 pt-2">
-                <div>
-                  <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Sender Full Name and Phone</label>
-                  <input type="text" id="senderName" value="Ebrima Sallah (+86 139 1234 5678)" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold">
-                </div>
-                <div>
-                  <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Recipient Full Name and Phone</label>
-                  <input type="text" id="recipientName" value="Kaddy Sallah (+220 991 2233)" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold">
-                </div>
-              </div>
-
-              <button onclick="issueRemittance()" class="w-full py-4 text-white font-bold skeuo-btn rounded-xl text-sm uppercase tracking-wider">
-                Generate Redemption Code and Post Journal Entry
-              </button>
-            </div>
-          </div>
-
-          <!-- Receipt Slip Preview -->
-          <div class="col-span-12 lg:col-span-5">
-            <div class="tactile-card p-6 bg-white space-y-4 sticky top-6">
-              <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Counter Receipt Slip</h2>
-              <div id="receiptContainer" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
-                <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
-                  <img id="previewReceiptLogo" src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
-                  <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Official Counter Receipt</p>
-                  <p class="text-[9px] text-gray-400">Home, within reach.</p>
-                </div>
-                <p class="text-center py-4 text-gray-400 italic">No transfer issued in this active session yet.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 2: CASH PAYOUT COUNTER -->
-        <div id="view-payout" class="hidden max-w-3xl mx-auto space-y-6">
+      <!-- SEND TAB -->
+      <div id="view-send" class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 lg:col-span-7 space-y-6">
           <div class="tactile-card p-6 space-y-5">
-            <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Redeem Code and Release Cash</h2>
-            
-            <!-- Quick Active Queue Selector -->
-            <div>
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Pending Redemption Queue</label>
-              <div class="flex flex-wrap gap-2" id="pendingCodesQueue">
-                <!-- Dynamically populated queue buttons -->
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Enter Redemption Code</label>
-              <div class="flex space-x-2">
-                <input type="text" id="redemptionCodeInput" onkeydown="if(event.key==='Enter') verifyCode()" placeholder="BNT-XXXX-XX" class="flex-1 px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold tracking-widest text-brand-700 uppercase">
-                <button onclick="verifyCode()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition">
-                  Verify in Ledger
-                </button>
-              </div>
-            </div>
-
-            <div id="verificationResult" class="hidden p-5 rounded-xl border space-y-3">
-              <!-- Verification outcome -->
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 3: EXECUTIVE ANALYTICS -->
-        <div id="view-analytics" class="hidden space-y-6">
-          <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-12 lg:col-span-8 tactile-card p-6 bg-gradient-to-br from-brand-700 to-brand-900 text-white space-y-4">
-              <div class="flex items-center justify-between">
-                <p class="text-xs font-bold uppercase tracking-widest text-brand-100">Live Processed Remittance Volume</p>
-                <span class="text-[10px] font-mono bg-brand-600/60 px-2 py-0.5 rounded text-brand-100">Synchronized Ledger</span>
-              </div>
-              <p class="font-mono text-4xl font-bold" id="analyticsTotalVolume">$1,840,250.00 <span class="text-xs font-sans text-brand-100 font-normal">USD Equivalent</span></p>
-              <div class="grid grid-cols-5 gap-2 pt-4 border-t border-brand-600/50 text-xs font-semibold" id="corridorBreakdownGrid">
-                <!-- Corridor Volume Metrics -->
-              </div>
-            </div>
-
-            <div class="col-span-12 lg:col-span-4 tactile-card p-6 flex flex-col justify-between">
-              <p class="text-xs font-bold uppercase text-gray-500 tracking-wider">Customer Retention Rate</p>
-              <div class="flex items-center justify-between my-2">
-                <span class="font-mono text-3xl font-bold text-brand-700">78.4%</span>
-                <div class="w-16 h-16 rounded-full border-4 border-brand-500 border-t-transparent flex items-center justify-center font-bold text-xs font-mono text-brand-700">
-                  78%
-                </div>
-              </div>
-              <p class="text-[11px] text-gray-500 font-medium">Verified by matching recipient identity across trailing 30 days.</p>
-            </div>
-
-            <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2">
-              <p class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Total Recorded Transactions</p>
-              <p class="font-mono text-2xl font-bold text-gray-800" id="statTotalTx">0</p>
-              <p class="text-[11px] text-gray-500">Across origin and destination corridors.</p>
-            </div>
-
-            <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2">
-              <p class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Unredeemed Float Balances</p>
-              <p class="font-mono text-2xl font-bold text-emerald-700" id="statUnredeemedTx">0</p>
-              <p class="text-[11px] text-gray-500">Awaiting counter redemption.</p>
-            </div>
-
-            <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2">
-              <p class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Disbursed and Closed</p>
-              <p class="font-mono text-2xl font-bold text-brand-600" id="statRedeemedTx">0</p>
-              <p class="text-[11px] text-gray-500">Successfully verified and paid out.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 4: GENERAL LEDGER (DOUBLE ENTRY) -->
-        <div id="view-ledger" class="hidden space-y-4">
-          <div class="tactile-card p-6 space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Double-Entry Accounting Journal</h2>
-                <p class="text-xs text-gray-500">Chart of Accounts: 1010 CASH_VAULT | 2010 CUST_PAYABLE | 4020 COUNTER_FEE_REV</p>
-              </div>
-              <div class="flex items-center space-x-2">
-                <select id="ledgerFilterSelect" onchange="updateLedgerTable()" class="px-3 py-1.5 inset-input rounded-lg text-xs font-semibold">
-                  <option value="ALL">All Postings</option>
-                  <option value="UNREDEEMED">Unredeemed Transfers</option>
-                  <option value="REDEEMED">Redeemed Transfers</option>
-                  <option value="CANCELLED">Cancelled Transfers</option>
-                </select>
-                <button onclick="exportLedgerCSV()" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-bold transition">
-                  Export Journal CSV
-                </button>
-              </div>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left font-mono text-xs">
-                <thead>
-                  <tr class="border-b border-gray-200 text-gray-500 uppercase">
-                    <th class="py-2.5 px-3">Timestamp</th>
-                    <th class="py-2.5 px-3">Reference Code</th>
-                    <th class="py-2.5 px-3">Account Title</th>
-                    <th class="py-2.5 px-3 text-right">Debit (DR)</th>
-                    <th class="py-2.5 px-3 text-right">Credit (CR)</th>
-                    <th class="py-2.5 px-3 text-center">Lifecycle Status</th>
-                    <th class="py-2.5 px-3 text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="ledgerTableBody" class="divide-y divide-gray-100">
-                  <!-- Dynamic double-entry journal rows -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 5: TREASURY AND VAULTS -->
-        <div id="view-treasury" class="hidden space-y-4">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Regional Counter Vault Balances</h2>
-            <button onclick="openTopUpModal()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition">
-              + Inject Liquidity Float
-            </button>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4" id="vaultGrid">
-            <!-- Dynamic Vault Cards -->
-          </div>
-        </div>
-
-        <!-- TAB 6: COMPLIANCE AND AUDIT -->
-        <div id="view-audit" class="hidden space-y-4">
-          <div class="tactile-card p-6 space-y-4">
             <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Regulatory and Operational Audit Trail</h2>
-                <p class="text-xs text-gray-500">Immutable chronological event stream for MLRO compliance reviews.</p>
-              </div>
-              <button onclick="exportAuditCSV()" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-bold transition">
-                Export Audit CSV
-              </button>
+              <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Book Remittance and Receive Cash</h2>
+              <span class="text-[10px] font-mono bg-brand-50 text-brand-700 px-2 py-0.5 rounded border border-brand-100">Bidirectional</span>
             </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left font-mono text-xs">
-                <thead>
-                  <tr class="border-b border-gray-200 text-gray-500 uppercase">
-                    <th class="py-2.5 px-3">Event Timestamp</th>
-                    <th class="py-2.5 px-3">Staff ID</th>
-                    <th class="py-2.5 px-3">Origin Location</th>
-                    <th class="py-2.5 px-3">Action Description</th>
-                  </tr>
-                </thead>
-                <tbody id="auditTableBody" class="divide-y divide-gray-100">
-                  <!-- Dynamic Audit Rows -->
-                </tbody>
-              </table>
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Collected Currency</label>
+              <div id="sendCurrencyGrid" class="grid grid-cols-5 gap-2"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Cash Intake Amount</label>
+                <input type="number" id="sendAmount" value="2500" oninput="calculateRates()" class="w-full px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold text-gray-800">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Payout Destination</label>
+                <select id="destCurrency" onchange="calculateRates()" class="w-full px-4 py-3.5 inset-input rounded-xl text-xs font-bold"></select>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl bg-sand-100 border border-sand-200 space-y-2">
+              <div class="flex justify-between text-xs font-semibold text-gray-600"><span>Applied Rate</span><span id="fxRateDisplay" class="font-mono font-bold text-gray-800">&mdash;</span></div>
+              <div class="flex justify-between text-xs font-semibold text-gray-600"><span>Counter Fee</span><span id="feeDisplay" class="font-mono font-bold text-gray-800">&mdash;</span></div>
+              <div class="h-px bg-sand-200 my-1"></div>
+              <div class="flex justify-between items-center"><span class="text-xs font-bold uppercase text-brand-700">Recipient Payout</span><span id="payoutTotalDisplay" class="font-mono text-xl font-bold text-brand-600">&mdash;</span></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Sender Full Name</label><input type="text" id="senderName" placeholder="Full name" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+              <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Sender Phone</label><input type="text" id="senderPhone" placeholder="+86 139..." class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+              <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Recipient Full Name</label><input type="text" id="recipientName" placeholder="Full name" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+              <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Recipient Phone</label><input type="text" id="recipientPhone" placeholder="+220 991..." class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+              <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Sender ID / Passport Number</label><input type="text" id="senderIdNumber" placeholder="Passport or national ID number (required for KYC)" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+            </div>
+            <button onclick="issueRemittance()" class="w-full py-4 text-white font-bold skeuo-btn rounded-xl text-sm uppercase tracking-wider">Generate Redemption Code and Post Journal Entry</button>
+          </div>
+        </div>
+        <div class="col-span-12 lg:col-span-5">
+          <div class="tactile-card p-6 bg-white space-y-4 sticky top-6">
+            <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Counter Receipt Slip</h2>
+            <div id="receiptContainer" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
+              <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
+                <img src="assets/images/logo.png" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" onerror="this.style.display='none'"/>
+                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Official Counter Receipt</p>
+                <p class="text-[9px] text-gray-400">Home, within reach.</p>
+              </div>
+              <p class="text-center py-4 text-gray-400 italic">No transfer issued in this session yet.</p>
             </div>
           </div>
         </div>
-
-      </main>
-    </div>
-
-    <!-- CORPORATE CONTEXT FOOTER -->
-    <footer class="mt-8 py-4 px-6 border-t border-gray-200 bg-white flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 space-y-2 sm:space-y-0">
-      <div class="flex items-center space-x-2">
-        <span class="font-bold text-brand-700">Bantaba</span>
-        <span>•</span>
-        <span>Home, within reach.</span>
       </div>
-      <div>
-        <span>Bantaba Remittance Operating System. All rights reserved.</span>
+
+      <!-- PAYOUT TAB -->
+      <div id="view-payout" class="hidden max-w-3xl mx-auto space-y-6">
+        <div class="tactile-card p-6 space-y-5">
+          <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Redeem Code and Release Cash</h2>
+          <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Pending Redemption Queue</label>
+            <div class="flex flex-wrap gap-2" id="pendingCodesQueue"></div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Enter Redemption Code</label>
+            <div class="flex space-x-2">
+              <input type="text" id="redemptionCodeInput" onkeydown="if(event.key==='Enter') verifyCode()" placeholder="BNT-XXXX-XX" class="flex-1 px-4 py-3 inset-input rounded-xl font-mono text-lg font-bold tracking-widest text-brand-700 uppercase">
+              <button onclick="verifyCode()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition">Verify</button>
+            </div>
+          </div>
+          <div id="verificationResult" class="hidden p-5 rounded-xl border space-y-4"></div>
+          <div id="recipientVerifyForm" class="hidden p-5 rounded-xl border border-amber-300 bg-amber-50 space-y-4">
+            <p class="text-xs font-bold text-amber-800 uppercase">Confirm Recipient Identity Before Releasing Cash</p>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block text-xs font-bold text-gray-600 uppercase mb-1">Recipient Full Name (on ID)</label><input type="text" id="verifyRecipientName" placeholder="As shown on document" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+              <div><label class="block text-xs font-bold text-gray-600 uppercase mb-1">Recipient Phone</label><input type="text" id="verifyRecipientPhone" placeholder="+220..." class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+              <div class="col-span-2"><label class="block text-xs font-bold text-gray-600 uppercase mb-1">Government ID Number Presented</label><input type="text" id="verifyRecipientId" placeholder="Passport, national ID, or other document number" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+            </div>
+            <button onclick="confirmAndDisburse()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition">Confirm Identity and Disburse Cash</button>
+          </div>
+        </div>
       </div>
+
+      <!-- ANALYTICS TAB -->
+      <div id="view-analytics" class="hidden space-y-6">
+        <div class="grid grid-cols-12 gap-4">
+          <div class="col-span-12 lg:col-span-8 tactile-card p-6 bg-gradient-to-br from-brand-700 to-brand-900 text-white space-y-4">
+            <div class="flex items-center justify-between"><p class="text-xs font-bold uppercase tracking-widest text-brand-100">Live Remittance Volume</p><span class="text-[10px] font-mono bg-brand-600/60 px-2 py-0.5 rounded text-brand-100">Synchronized</span></div>
+            <p class="font-mono text-4xl font-bold" id="analyticsTotalVolume">$0.00 <span class="text-xs font-sans text-brand-100 font-normal">USD Equivalent</span></p>
+            <div class="grid grid-cols-5 gap-2 pt-4 border-t border-brand-600/50 text-xs font-semibold" id="corridorBreakdownGrid"></div>
+          </div>
+          <div class="col-span-12 lg:col-span-4 tactile-card p-6 flex flex-col justify-between">
+            <p class="text-xs font-bold uppercase text-gray-500">Active Staff</p>
+            <p class="font-mono text-3xl font-bold text-brand-700" id="statActiveStaff">0</p>
+            <p class="text-[11px] text-gray-500">Sessions open today.</p>
+          </div>
+          <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2"><p class="text-[10px] font-bold uppercase text-gray-500">Total Transactions</p><p class="font-mono text-2xl font-bold text-gray-800" id="statTotalTx">0</p></div>
+          <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2"><p class="text-[10px] font-bold uppercase text-gray-500">Unredeemed</p><p class="font-mono text-2xl font-bold text-emerald-700" id="statUnredeemedTx">0</p></div>
+          <div class="col-span-12 md:col-span-4 tactile-card p-5 space-y-2"><p class="text-[10px] font-bold uppercase text-gray-500">Disbursed and Closed</p><p class="font-mono text-2xl font-bold text-brand-600" id="statRedeemedTx">0</p></div>
+        </div>
+      </div>
+
+      <!-- LEDGER TAB -->
+      <div id="view-ledger" class="hidden space-y-4">
+        <div class="tactile-card p-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div><h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Double-Entry Accounting Journal</h2><p class="text-xs text-gray-500">1010 CASH_VAULT | 2010 CUST_PAYABLE | 4020 COUNTER_FEE_REV</p></div>
+            <div class="flex items-center space-x-2">
+              <select id="ledgerFilterSelect" onchange="updateLedgerTable()" class="px-3 py-1.5 inset-input rounded-lg text-xs font-semibold"><option value="ALL">All</option><option value="UNREDEEMED">Unredeemed</option><option value="REDEEMED">Redeemed</option><option value="CANCELLED">Cancelled</option></select>
+              <button onclick="exportLedgerCSV()" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-bold transition">Export CSV</button>
+            </div>
+          </div>
+          <div class="overflow-x-auto"><table class="w-full text-left font-mono text-xs"><thead><tr class="border-b border-gray-200 text-gray-500 uppercase"><th class="py-2.5 px-3">Timestamp</th><th class="py-2.5 px-3">Code</th><th class="py-2.5 px-3">Branch</th><th class="py-2.5 px-3">Account</th><th class="py-2.5 px-3 text-right">DR</th><th class="py-2.5 px-3 text-right">CR</th><th class="py-2.5 px-3 text-center">Status</th><th class="py-2.5 px-3 text-center">Act</th></tr></thead><tbody id="ledgerTableBody" class="divide-y divide-gray-100"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- TREASURY TAB -->
+      <div id="view-treasury" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase text-gray-500 tracking-wider">Regional Counter Vault Balances</h2>
+          <button onclick="openTopUpModal()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition">+ Inject Liquidity</button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4" id="vaultGrid"></div>
+      </div>
+
+      <!-- AUDIT TAB -->
+      <div id="view-audit" class="hidden space-y-4">
+        <div class="tactile-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div><h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Regulatory and Operational Audit Trail</h2><p class="text-xs text-gray-500">Immutable event stream for MLRO compliance reviews.</p></div>
+            <button onclick="exportAuditCSV()" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-bold transition">Export CSV</button>
+          </div>
+          <div class="overflow-x-auto"><table class="w-full text-left font-mono text-xs"><thead><tr class="border-b border-gray-200 text-gray-500 uppercase"><th class="py-2.5 px-3">Timestamp</th><th class="py-2.5 px-3">Staff ID</th><th class="py-2.5 px-3">Branch</th><th class="py-2.5 px-3">Action</th></tr></thead><tbody id="auditTableBody" class="divide-y divide-gray-100"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB -->
+      <div id="view-admin" class="hidden space-y-6">
+        <div class="tactile-card p-6 space-y-4">
+          <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">FX Rate and Fee Configuration</h2>
+          <p class="text-xs text-gray-500">Adjust exchange rates and counter fees. Changes apply immediately to all new transactions.</p>
+          <div id="fxRateEditorGrid" class="space-y-4"></div>
+        </div>
+        <div class="tactile-card p-6 space-y-4">
+          <div class="flex items-center justify-between"><h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Staff Register and Time Tracking</h2><button onclick="openAddStaffModal()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition">+ Add Staff</button></div>
+          <div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead><tr class="border-b border-gray-200 text-gray-500 uppercase font-mono"><th class="py-2.5 px-3">ID</th><th class="py-2.5 px-3">Name</th><th class="py-2.5 px-3">Role</th><th class="py-2.5 px-3">Branch</th><th class="py-2.5 px-3">Status</th><th class="py-2.5 px-3">Hours</th><th class="py-2.5 px-3">Last Login</th><th class="py-2.5 px-3 text-center">Action</th></tr></thead><tbody id="staffTableBody" class="divide-y divide-gray-100"></tbody></table></div>
+        </div>
+        <div class="tactile-card p-6 space-y-4">
+          <div class="flex items-center justify-between"><h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Branch and Payout Network</h2><button onclick="openAddBranchModal()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition">+ Add Location</button></div>
+          <div id="branchNetworkGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+        </div>
+        <div class="tactile-card p-6 space-y-4">
+          <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">System Metrics and Thresholds</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Low Vault Threshold</label><input type="number" id="metricLowVaultThreshold" value="500000" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Max Single Transaction</label><input type="number" id="metricMaxTxAmount" value="50000" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Daily KYC Limit</label><input type="number" id="metricKycLimit" value="10000" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Session Timeout (min)</label><input type="number" id="metricSessionTimeout" value="480" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold"></div>
+          </div>
+          <button onclick="saveMetrics()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition">Save Configuration</button>
+        </div>
+        <div class="tactile-card p-6 space-y-4">
+          <h2 class="text-sm font-bold uppercase text-gray-700 tracking-wider">Staff Session Log</h2>
+          <div class="overflow-x-auto"><table class="w-full text-left font-mono text-xs"><thead><tr class="border-b border-gray-200 text-gray-500 uppercase"><th class="py-2 px-3">Date/Time</th><th class="py-2 px-3">Staff ID</th><th class="py-2 px-3">Branch</th><th class="py-2 px-3">Role</th><th class="py-2 px-3">Event</th><th class="py-2 px-3">Duration</th></tr></thead><tbody id="sessionLogBody" class="divide-y divide-gray-100"></tbody></table></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-4 px-6 border-t border-gray-200 bg-white flex items-center justify-between text-xs text-gray-500">
+      <div class="flex items-center space-x-2"><span class="font-bold text-brand-700">Bantaba</span><span>&bull;</span><span>Home, within reach.</span></div>
+      <span>Bantaba Remittance Operating System. All rights reserved.</span>
     </footer>
   </div>
 
-  <!-- VAULT TOP-UP MODAL -->
-  <div id="topUpModal" class="hidden fixed inset-0 z-50 bg-sand-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <!-- MODALS -->
+  <div id="topUpModal" class="hidden fixed inset-0 z-50 bg-sand-900/60 modal-back flex items-center justify-center p-4">
     <div class="tactile-card w-full max-w-sm p-6 bg-white space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-sm font-bold uppercase text-gray-800">Inject Vault Liquidity</h3>
-        <button onclick="closeTopUpModal()" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Target Counter Vault</label>
-        <select id="topUpVaultSelect" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold">
-          <option value="GMD">Banjul (GMD)</option>
-          <option value="XOF_SN">Dakar (XOF)</option>
-          <option value="XOF_ML">Bamako (XOF)</option>
-          <option value="GNF">Conakry (GNF)</option>
-          <option value="XOF_GW">Bissau (XOF)</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Float Amount to Add</label>
-        <input type="number" id="topUpAmountInput" value="500000" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold">
-      </div>
-      <button onclick="executeVaultTopUp()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition">
-        Confirm Liquidity Addition
-      </button>
+      <div class="flex items-center justify-between"><h3 class="text-sm font-bold uppercase text-gray-800">Inject Vault Liquidity</h3><button onclick="closeTopUpModal()" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button></div>
+      <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Target Vault</label><select id="topUpVaultSelect" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></select></div>
+      <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Amount to Add</label><input type="number" id="topUpAmountInput" value="500000" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold"></div>
+      <button onclick="executeVaultTopUp()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition">Confirm</button>
     </div>
   </div>
 
-  <script>
-    let activeCurrency = 'CNY';
-    let currentRole = 'CASHIER';
-    let currentStaff = 'TEL-8842';
-    let currentBranch = 'Guangzhou Branch, China';
-
-    const DEFAULT_VAULTS = {
-      GMD: { name: 'Banjul (GMD)', balance: 2450000, curr: 'GMD', symbol: 'D' },
-      XOF_SN: { name: 'Dakar (XOF)', balance: 32100000, curr: 'XOF', symbol: 'XOF' },
-      XOF_ML: { name: 'Bamako (XOF)', balance: 18400000, curr: 'XOF', symbol: 'XOF' },
-      GNF: { name: 'Conakry (GNF)', balance: 240000000, curr: 'GNF', symbol: 'GNF' },
-      XOF_GW: { name: 'Bissau (XOF)', balance: 12800000, curr: 'XOF', symbol: 'XOF' }
-    };
-
-    const DEFAULT_TRANSACTIONS = [
-      {
-        code: 'BNT-9042-18',
-        amount: '1000 CNY',
-        originAmount: 1000,
-        originCurr: 'CNY',
-        fee: 25,
-        payoutTotalNum: 9425.00,
-        destCurrKey: 'GMD',
-        payoutTotal: '9,425.00 GMD',
-        sender: 'Modou Camara (+86 138 9988 1122)',
-        recipient: 'Ousman Camara (+220 701 4455)',
-        timestamp: '10:14:02 AM',
-        status: 'UNREDEEMED'
-      },
-      {
-        code: 'BNT-6102-77',
-        amount: '350 GBP',
-        originAmount: 350,
-        originCurr: 'GBP',
-        fee: 3,
-        payoutTotalNum: 274750.00,
-        destCurrKey: 'XOF_SN',
-        payoutTotal: '274,750.00 XOF',
-        sender: 'Fatou Sow (+44 7700 900123)',
-        recipient: 'Awa Sow (+221 77 654 3210)',
-        timestamp: '09:48:15 AM',
-        status: 'UNREDEEMED'
-      },
-      {
-        code: 'BNT-4419-02',
-        amount: '500 USD',
-        originAmount: 500,
-        originCurr: 'USD',
-        fee: 5,
-        payoutTotalNum: 4325000.00,
-        destCurrKey: 'GNF',
-        payoutTotal: '4,325,000.00 GNF',
-        sender: 'Amadou Diallo (+1 212 555 0192)',
-        recipient: 'Mamadou Diallo (+224 621 001122)',
-        timestamp: '08:30:44 AM',
-        status: 'REDEEMED'
-      }
-    ];
-
-    let vaults = JSON.parse(localStorage.getItem('bantaba_vaults')) || JSON.parse(JSON.stringify(DEFAULT_VAULTS));
-    let transactions = JSON.parse(localStorage.getItem('bantaba_txs')) || JSON.parse(JSON.stringify(DEFAULT_TRANSACTIONS));
-    let auditLogs = JSON.parse(localStorage.getItem('bantaba_audit')) || [];
-
-    const RATES = {
-      CNY: { GMD: 9.45, XOF_SN: 84.20, XOF_ML: 84.20, XOF_GW: 84.20, GNF: 1190.00 },
-      GBP: { GMD: 88.50, XOF_SN: 785.00, XOF_ML: 785.00, XOF_GW: 785.00, GNF: 11200.00 },
-      USD: { GMD: 68.20, XOF_SN: 605.00, XOF_ML: 605.00, XOF_GW: 605.00, GNF: 8650.00 }
-    };
-
-    function playChime(success = true) {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
-        const now = ctx.currentTime;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        if (success) {
-          osc.frequency.setValueAtTime(587.33, now);
-          osc.frequency.setValueAtTime(880.00, now + 0.1);
-          gain.gain.setValueAtTime(0.12, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-          osc.start(now);
-          osc.stop(now + 0.35);
-        } else {
-          osc.frequency.setValueAtTime(320, now);
-          osc.frequency.setValueAtTime(240, now + 0.1);
-          gain.gain.setValueAtTime(0.12, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-          osc.start(now);
-          osc.stop(now + 0.3);
-        }
-      } catch (e) {
-        // Audio handled safely
-      }
-    }
-
-    function saveState() {
-      localStorage.setItem('bantaba_vaults', JSON.stringify(vaults));
-      localStorage.setItem('bantaba_txs', JSON.stringify(transactions));
-      localStorage.setItem('bantaba_audit', JSON.stringify(auditLogs));
-    }
-
-    function getBrandLogoUrl() {
-      const headerImg = document.getElementById('brandHeaderLogo');
-      if (headerImg && headerImg.src) return headerImg.src;
-      return 'assets/images/logo.png';
-    }
-
-    function initSystem() {
-      if (auditLogs.length === 0) {
-        logAudit('INITIALIZATION', 'Terminal counter operational');
-      }
-      const previewImg = document.getElementById('previewReceiptLogo');
-      if (previewImg) {
-        previewImg.src = getBrandLogoUrl();
-      }
-      updateLedgerTable();
-      renderVaults();
-      updateAnalytics();
-      renderPendingQueue();
-    }
-
-    function logAudit(action, details) {
-      auditLogs.unshift({
-        time: new Date().toLocaleTimeString(),
-        staff: currentStaff,
-        branch: currentBranch,
-        event: `${action}: ${details}`
-      });
-      saveState();
-      updateAuditTable();
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      currentStaff = document.getElementById('staffId').value || 'TEL-8842';
-      currentRole = document.getElementById('roleSelect').value;
-      currentBranch = document.getElementById('branchSelect').options[document.getElementById('branchSelect').selectedIndex].text;
-
-      document.getElementById('activeStaffDisplay').innerText = currentStaff;
-      document.getElementById('activeBranchDisplay').innerText = currentBranch;
-      document.getElementById('roleBadge').innerText = currentRole;
-
-      document.getElementById('loginOverlay').classList.add('hidden');
-      document.getElementById('mainApp').classList.remove('hidden');
-
-      logAudit('AUTHENTICATION', `Opened counter session with role ${currentRole}`);
-      applyRolePermissions();
-      calculateRates();
-      updateAnalytics();
-      renderPendingQueue();
-    }
-
-    function handleLogout() {
-      logAudit('SESSION_CLOSE', 'Counter session closed cleanly');
-      document.getElementById('mainApp').classList.add('hidden');
-      document.getElementById('loginOverlay').classList.remove('hidden');
-    }
-
-    function applyRolePermissions() {
-      document.querySelectorAll('.role-admin, .role-supervisor, .role-compliance').forEach(el => el.classList.add('hidden'));
-
-      if (currentRole === 'ADMIN') {
-        document.querySelectorAll('.role-admin, .role-supervisor, .role-compliance').forEach(el => el.classList.remove('hidden'));
-      } else if (currentRole === 'SUPERVISOR') {
-        document.querySelectorAll('.role-supervisor').forEach(el => el.classList.remove('hidden'));
-      } else if (currentRole === 'COMPLIANCE') {
-        document.querySelectorAll('.role-compliance').forEach(el => el.classList.remove('hidden'));
-      }
-    }
-
-    function switchTab(tab) {
-      ['send', 'payout', 'analytics', 'ledger', 'treasury', 'audit'].forEach(t => {
-        const view = document.getElementById(`view-${t}`);
-        const btn = document.getElementById(`tab-${t}`);
-        if (view) view.classList.add('hidden');
-        if (btn) {
-          btn.classList.remove('border-brand-500', 'text-brand-700');
-          btn.classList.add('border-transparent', 'text-gray-500');
-        }
-      });
-
-      document.getElementById(`view-${tab}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`tab-${tab}`);
-      if (activeBtn) {
-        activeBtn.classList.remove('border-transparent', 'text-gray-500');
-        activeBtn.classList.add('border-brand-500', 'text-brand-700');
-      }
-
-      if (tab === 'analytics') updateAnalytics();
-      if (tab === 'ledger') updateLedgerTable();
-      if (tab === 'treasury') renderVaults();
-      if (tab === 'payout') renderPendingQueue();
-    }
-
-    function setSendCurrency(curr) {
-      activeCurrency = curr;
-      ['CNY', 'GBP', 'USD'].forEach(c => {
-        document.getElementById(`curr-${c}`).classList.remove('active');
-      });
-      document.getElementById(`curr-${curr}`).classList.add('active');
-      calculateRates();
-    }
-
-    function calculateRates() {
-      const amount = parseFloat(document.getElementById('sendAmount').value) || 0;
-      const destCurrKey = document.getElementById('destCurrency').value;
-      const rate = RATES[activeCurrency][destCurrKey];
-      const fee = activeCurrency === 'CNY' ? 25 : (activeCurrency === 'GBP' ? 3 : 5);
-
-      const netAmount = Math.max(0, amount - fee);
-      const payoutTotal = netAmount * rate;
-
-      const currLabels = { GMD: 'GMD', XOF_SN: 'XOF', XOF_ML: 'XOF', XOF_GW: 'XOF', GNF: 'GNF' };
-      const displaySymbol = currLabels[destCurrKey];
-
-      document.getElementById('fxRateDisplay').innerText = `1 ${activeCurrency} = ${rate} ${displaySymbol}`;
-      document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} ${activeCurrency}`;
-      document.getElementById('payoutTotalDisplay').innerText = `${payoutTotal.toLocaleString('en-US', {minimumFractionDigits: 2})} ${displaySymbol}`;
-    }
-
-    function issueRemittance() {
-      const amount = parseFloat(document.getElementById('sendAmount').value) || 0;
-      const fee = activeCurrency === 'CNY' ? 25 : (activeCurrency === 'GBP' ? 3 : 5);
-      const sender = document.getElementById('senderName').value.trim();
-      const recipient = document.getElementById('recipientName').value.trim();
-
-      if (amount <= fee) {
-        playChime(false);
-        alert('Validation Error: Cash received must exceed the standard counter fee.');
-        return;
-      }
-      if (!sender || !recipient) {
-        playChime(false);
-        alert('Validation Error: Sender and recipient details are required.');
-        return;
-      }
-
-      const destCurrKey = document.getElementById('destCurrency').value;
-      const rate = RATES[activeCurrency][destCurrKey];
-      const payoutNum = (amount - fee) * rate;
-      const code = 'BNT-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(10 + Math.random() * 90);
-      const payoutTotalStr = document.getElementById('payoutTotalDisplay').innerText;
-
-      const tx = {
-        code,
-        amount: `${amount} ${activeCurrency}`,
-        originAmount: amount,
-        originCurr: activeCurrency,
-        fee,
-        payoutTotalNum: payoutNum,
-        destCurrKey,
-        payoutTotal: payoutTotalStr,
-        sender,
-        recipient,
-        timestamp: new Date().toLocaleTimeString(),
-        status: 'UNREDEEMED'
-      };
-
-      transactions.unshift(tx);
-      logAudit('BOOK_REMITTANCE', `Issued code ${code} for ${payoutTotalStr} (${sender} to ${recipient})`);
-      saveState();
-      playChime(true);
-
-      const brandLogoUrl = getBrandLogoUrl();
-
-      document.getElementById('receiptContainer').innerHTML = `
-        <div id="printableReceipt" class="p-5 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs space-y-3 text-gray-700">
-          <div class="text-center pb-2 border-b border-sand-200 flex flex-col items-center">
-            <img src="${brandLogoUrl}" alt="Bantaba Logo" class="h-10 w-auto object-contain mix-blend-multiply mb-1" />
-            <p class="text-[11px] text-gray-800 uppercase tracking-wider font-bold">Official Counter Receipt</p>
-            <p class="text-[9px] text-gray-500">Home, within reach.</p>
-            <p class="text-[9px] text-gray-400 font-mono">${new Date().toLocaleString()}</p>
-          </div>
-          <div class="py-2.5 text-center bg-brand-50 rounded-lg border border-brand-100">
-            <p class="text-[9px] text-gray-500 uppercase font-bold">Redemption Code</p>
-            <p class="font-bold text-lg text-brand-700 tracking-widest">${code}</p>
-          </div>
-          <div class="space-y-1.5 text-[11px] border-b border-sand-200 pb-2">
-            <p class="flex justify-between"><span>Sender:</span> <span class="font-bold">${sender}</span></p>
-            <p class="flex justify-between"><span>Recipient:</span> <span class="font-bold">${recipient}</span></p>
-            <p class="flex justify-between"><span>Branch:</span> <span class="font-bold">${currentBranch}</span></p>
-            <p class="flex justify-between"><span>Cash Collected:</span> <span class="font-bold">${amount} ${activeCurrency}</span></p>
-            <p class="flex justify-between"><span>Counter Fee:</span> <span>${fee.toFixed(2)} ${activeCurrency}</span></p>
-            <p class="flex justify-between text-brand-700 font-bold text-xs pt-1 border-t border-dashed border-sand-300">
-              <span>Payout Due:</span> <span>${payoutTotalStr}</span>
-            </p>
-          </div>
-          <p class="text-[9px] text-center text-gray-400 italic">Recipient presents this code with valid government identification at the payout desk.</p>
-          <p class="text-[8px] text-center text-gray-400 uppercase font-mono">Bantaba Cash Remittance Network</p>
-          <button onclick="window.print()" class="no-print w-full py-2 bg-sand-200 hover:bg-sand-300 text-gray-800 rounded-lg font-bold text-[10px] uppercase tracking-wider transition">
-            Print Thermal Slip
-          </button>
-        </div>
-      `;
-
-      updateLedgerTable();
-      updateAnalytics();
-      renderPendingQueue();
-    }
-
-    function renderPendingQueue() {
-      const queueContainer = document.getElementById('pendingCodesQueue');
-      if (!queueContainer) return;
-      const unredeemed = transactions.filter(t => t.status === 'UNREDEEMED');
-      if (unredeemed.length === 0) {
-        queueContainer.innerHTML = '<span class="text-xs text-gray-400 italic">No pending transfers awaiting counter cash payout.</span>';
-        return;
-      }
-      queueContainer.innerHTML = unredeemed.map(t => `
-        <button onclick="selectCode('${t.code}')" class="px-3 py-1.5 rounded-lg border border-brand-200 bg-sand-50 hover:bg-brand-50 text-xs font-mono font-bold text-brand-700 transition flex items-center space-x-1.5">
-          <span>${t.code}</span>
-          <span class="text-[10px] text-gray-500 font-normal">(${t.payoutTotal})</span>
-        </button>
-      `).join('');
-    }
-
-    function selectCode(code) {
-      document.getElementById('redemptionCodeInput').value = code;
-      verifyCode();
-    }
-
-    function verifyCode() {
-      const input = document.getElementById('redemptionCodeInput').value.trim().toUpperCase();
-      const resDiv = document.getElementById('verificationResult');
-      const tx = transactions.find(t => t.code === input);
-
-      resDiv.classList.remove('hidden', 'bg-red-50', 'border-red-200', 'bg-emerald-50', 'border-emerald-200', 'bg-amber-50', 'border-amber-200');
-
-      if (!tx) {
-        playChime(false);
-        resDiv.classList.add('bg-red-50', 'border-red-200');
-        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">Code not found in central ledger database.</p>`;
-        return;
-      }
-
-      if (tx.status === 'REDEEMED') {
-        playChime(false);
-        resDiv.classList.add('bg-amber-50', 'border-amber-200');
-        resDiv.innerHTML = `<p class="text-xs font-bold text-amber-700">Code Already Disbursed on ${tx.timestamp}.</p>`;
-        return;
-      }
-
-      if (tx.status === 'CANCELLED') {
-        playChime(false);
-        resDiv.classList.add('bg-red-50', 'border-red-200');
-        resDiv.innerHTML = `<p class="text-xs font-bold text-red-700">Transfer Cancelled by Supervisor authorization.</p>`;
-        return;
-      }
-
-      const targetVault = vaults[tx.destCurrKey];
-      if (targetVault && targetVault.balance < tx.payoutTotalNum) {
-        playChime(false);
-        resDiv.classList.add('bg-red-50', 'border-red-200');
-        resDiv.innerHTML = `
-          <p class="text-xs font-bold text-red-700">Vault Balance Deficit</p>
-          <p class="text-xs text-gray-600">Branch vault requires cash rebalancing to disburse ${tx.payoutTotal}. Available balance: ${targetVault.symbol} ${targetVault.balance.toLocaleString()}. Supervisor top-up needed.</p>
-        `;
-        return;
-      }
-
-      resDiv.classList.add('bg-emerald-50', 'border-emerald-200');
-      resDiv.innerHTML = `
-        <div class="space-y-2">
-          <p class="text-xs font-bold text-emerald-800">VALID REDEMPTION RECORD</p>
-          <div class="text-xs text-gray-700 font-mono space-y-1">
-            <p><strong>Recipient Name:</strong> ${tx.recipient}</p>
-            <p><strong>Sender Name:</strong> ${tx.sender}</p>
-            <p><strong>Payout Amount:</strong> <span class="text-brand-700 font-bold">${tx.payoutTotal}</span></p>
-          </div>
-          <button onclick="disburseCash('${tx.code}')" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs uppercase tracking-wider transition">
-            Disburse Cash and Update Ledger
-          </button>
-        </div>
-      `;
-    }
-
-    function disburseCash(code) {
-      const tx = transactions.find(t => t.code === code);
-      if (tx) {
-        tx.status = 'REDEEMED';
-        if (vaults[tx.destCurrKey]) {
-          vaults[tx.destCurrKey].balance -= tx.payoutTotalNum;
-        }
-        logAudit('PAYOUT_DISBURSED', `Disbursed ${tx.payoutTotal} for code ${code} to ${tx.recipient}`);
-        saveState();
-        playChime(true);
-        alert(`Cash disbursement logged successfully. Vault and double-entry ledger updated.`);
-        document.getElementById('verificationResult').classList.add('hidden');
-        document.getElementById('redemptionCodeInput').value = '';
-        updateLedgerTable();
-        renderVaults();
-        updateAnalytics();
-        renderPendingQueue();
-      }
-    }
-
-    function cancelTransfer(code) {
-      if (confirm(`Cancel transfer ${code}? Reversal postings will be recorded in the general ledger.`)) {
-        const tx = transactions.find(t => t.code === code);
-        if (tx) {
-          tx.status = 'CANCELLED';
-          logAudit('TRANSFER_CANCELLED', `Cancelled redemption code ${code}`);
-          saveState();
-          updateLedgerTable();
-          updateAnalytics();
-          renderPendingQueue();
-        }
-      }
-    }
-
-    function openTopUpModal() {
-      document.getElementById('topUpModal').classList.remove('hidden');
-    }
-
-    function closeTopUpModal() {
-      document.getElementById('topUpModal').classList.add('hidden');
-    }
-
-    function executeVaultTopUp() {
-      const vaultKey = document.getElementById('topUpVaultSelect').value;
-      const amt = parseFloat(document.getElementById('topUpAmountInput').value) || 0;
-      if (amt <= 0) {
-        alert('Please enter a valid positive top-up amount.');
-        return;
-      }
-      if (vaults[vaultKey]) {
-        vaults[vaultKey].balance += amt;
-        logAudit('VAULT_REBALANCE', `Added ${vaults[vaultKey].symbol} ${amt.toLocaleString()} float to ${vaults[vaultKey].name}`);
-        saveState();
-        playChime(true);
-        renderVaults();
-        closeTopUpModal();
-        alert(`Successfully replenished ${vaults[vaultKey].name} with ${vaults[vaultKey].symbol} ${amt.toLocaleString()}`);
-      }
-    }
-
-    function renderVaults() {
-      const container = document.getElementById('vaultGrid');
-      container.innerHTML = Object.keys(vaults).map(k => {
-        const v = vaults[k];
-        const isLow = v.balance < 500000;
-        return `
-          <div class="tactile-card p-4 space-y-2 relative">
-            <p class="text-[10px] font-bold text-gray-500 uppercase">${v.name}</p>
-            <p class="font-mono text-lg font-bold text-gray-800">${v.symbol} ${v.balance.toLocaleString()}</p>
-            <div class="flex items-center justify-between pt-1">
-              <span class="inline-block px-2 py-0.5 rounded text-[9px] font-bold ${isLow ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
-                ${isLow ? 'Low Float' : 'Optimal'}
-              </span>
-              <button onclick="quickTopUp('${k}')" class="role-admin role-supervisor text-[10px] text-brand-600 font-bold hover:underline">
-                + Add Float
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-      applyRolePermissions();
-    }
-
-    function quickTopUp(vaultKey) {
-      document.getElementById('topUpVaultSelect').value = vaultKey;
-      openTopUpModal();
-    }
-
-    function updateLedgerTable() {
-      const tbody = document.getElementById('ledgerTableBody');
-      const filter = document.getElementById('ledgerFilterSelect') ? document.getElementById('ledgerFilterSelect').value : 'ALL';
-      
-      const filtered = transactions.filter(t => {
-        if (filter === 'ALL') return true;
-        return t.status === filter;
-      });
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-gray-400 italic">No ledger postings match the selected filter.</td></tr>`;
-        return;
-      }
-
-      let rows = '';
-      filtered.forEach(t => {
-        const isRedeemed = t.status === 'REDEEMED';
-        const isCancelled = t.status === 'CANCELLED';
-        const feeVal = (t.fee || 25).toFixed(2);
-        const netVal = ((t.originAmount || 1000) - (t.fee || 25)).toFixed(2);
-        const curr = t.originCurr || 'CNY';
-
-        // Debit Leg: Intake into 1010 CASH_VAULT
-        rows += `
-          <tr class="hover:bg-sand-50/50 transition">
-            <td class="py-2 px-3 text-gray-500">${t.timestamp}</td>
-            <td class="py-2 px-3 font-bold text-brand-700">${t.code}</td>
-            <td class="py-2 px-3 text-gray-800">1010 CASH_VAULT (Intake)</td>
-            <td class="py-2 px-3 text-right font-bold text-gray-800">${t.amount}</td>
-            <td class="py-2 px-3 text-right text-gray-400">0.00</td>
-            <td class="py-2 px-3 text-center" rowspan="3">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${
-                isRedeemed ? 'bg-gray-100 text-gray-600' : 
-                (isCancelled ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-800')
-              }">${t.status}</span>
-            </td>
-            <td class="py-2 px-3 text-center" rowspan="3">
-              ${t.status === 'UNREDEEMED' ? `<button onclick="cancelTransfer('${t.code}')" class="text-[10px] text-red-600 underline font-bold hover:text-red-800">Cancel</button>` : '-'}
-            </td>
-          </tr>
-          <tr class="hover:bg-sand-50/50 transition text-gray-600">
-            <td class="py-1 px-3 text-gray-400 text-[10px]">↳ Booking Leg</td>
-            <td class="py-1 px-3 text-gray-400 text-[10px]">Ref: ${t.code}</td>
-            <td class="py-1 px-3 text-gray-700">2010 CUST_PAYABLE (Net Remittance)</td>
-            <td class="py-1 px-3 text-right text-gray-400">0.00</td>
-            <td class="py-1 px-3 text-right font-semibold text-gray-700">${netVal} ${curr}</td>
-          </tr>
-          <tr class="hover:bg-sand-50/50 transition text-gray-600 border-b border-gray-200">
-            <td class="py-1 px-3 text-gray-400 text-[10px]">↳ Revenue Leg</td>
-            <td class="py-1 px-3 text-gray-400 text-[10px]">Fee Account</td>
-            <td class="py-1 px-3 text-gray-700">4020 COUNTER_FEE_REV (Desk Fee)</td>
-            <td class="py-1 px-3 text-right text-gray-400">0.00</td>
-            <td class="py-1 px-3 text-right font-semibold text-gray-700">${feeVal} ${curr}</td>
-          </tr>
-        `;
-      });
-
-      tbody.innerHTML = rows;
-    }
-
-    function updateAuditTable() {
-      const tbody = document.getElementById('auditTableBody');
-      if (auditLogs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-gray-400 italic">No audit records recorded in active ledger.</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = auditLogs.map(a => `
-        <tr class="hover:bg-sand-50/50 transition">
-          <td class="py-2 px-3 text-gray-500">${a.time}</td>
-          <td class="py-2 px-3 font-bold text-gray-800">${a.staff}</td>
-          <td class="py-2 px-3 text-gray-600">${a.branch}</td>
-          <td class="py-2 px-3 text-brand-700 font-semibold">${a.event}</td>
-        </tr>
-      `).join('');
-    }
-
-    function updateAnalytics() {
-      const totalTx = transactions.length;
-      const unredeemed = transactions.filter(t => t.status === 'UNREDEEMED').length;
-      const redeemed = transactions.filter(t => t.status === 'REDEEMED').length;
-
-      let totalUsd = 1840000;
-      const usdFx = { CNY: 0.14, GBP: 1.28, USD: 1.0 };
-      transactions.forEach(t => {
-        const factor = usdFx[t.originCurr] || 1;
-        totalUsd += (t.originAmount || 0) * factor;
-      });
-
-      document.getElementById('analyticsTotalVolume').innerHTML = `$${totalUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} <span class="text-xs font-sans text-brand-100 font-normal">USD Equivalent</span>`;
-      document.getElementById('statTotalTx').innerText = totalTx;
-      document.getElementById('statUnredeemedTx').innerText = unredeemed;
-      document.getElementById('statRedeemedTx').innerText = redeemed;
-
-      const corridorCounts = { GMD: 0, XOF_SN: 0, XOF_ML: 0, GNF: 0, XOF_GW: 0 };
-      transactions.forEach(t => {
-        if (corridorCounts[t.destCurrKey] !== undefined) corridorCounts[t.destCurrKey]++;
-      });
-
-      const totalCorridors = Object.values(corridorCounts).reduce((a, b) => a + b, 0) || 1;
-      const corridors = [
-        { name: 'Gambia', key: 'GMD', pct: (corridorCounts.GMD / totalCorridors * 100).toFixed(1) },
-        { name: 'Senegal', key: 'XOF_SN', pct: (corridorCounts.XOF_SN / totalCorridors * 100).toFixed(1) },
-        { name: 'Mali', key: 'XOF_ML', pct: (corridorCounts.XOF_ML / totalCorridors * 100).toFixed(1) },
-        { name: 'Conakry', key: 'GNF', pct: (corridorCounts.GNF / totalCorridors * 100).toFixed(1) },
-        { name: 'Bissau', key: 'XOF_GW', pct: (corridorCounts.XOF_GW / totalCorridors * 100).toFixed(1) },
-      ];
-
-      document.getElementById('corridorBreakdownGrid').innerHTML = corridors.map(c => `
-        <div>
-          <p class="text-brand-100 uppercase text-[9px]">${c.name}</p>
-          <p class="font-mono font-bold text-sm">${c.pct}%</p>
-        </div>
-      `).join('');
-    }
-
-    function exportLedgerCSV() {
-      let csv = 'Timestamp,RedemptionCode,AccountCode,AccountTitle,Debit,Credit,Status,Sender,Recipient,PayoutTotal\n';
-      transactions.forEach(t => {
-        const feeVal = (t.fee || 25).toFixed(2);
-        const netVal = ((t.originAmount || 1000) - (t.fee || 25)).toFixed(2);
-        const curr = t.originCurr || 'CNY';
-        csv += `"${t.timestamp}","${t.code}","1010","CASH_VAULT","${t.originAmount || 1000} ${curr}","0.00","${t.status}","${t.sender}","${t.recipient}","${t.payoutTotal}"\n`;
-        csv += `"${t.timestamp}","${t.code}","2010","CUST_PAYABLE","0.00","${netVal} ${curr}","${t.status}","${t.sender}","${t.recipient}","${t.payoutTotal}"\n`;
-        csv += `"${t.timestamp}","${t.code}","4020","COUNTER_FEE_REV","0.00","${feeVal} ${curr}","${t.status}","${t.sender}","${t.recipient}","${t.payoutTotal}"\n`;
-      });
-      downloadCSV(csv, `bantaba_general_ledger_${new Date().toISOString().slice(0,10)}.csv`);
-      logAudit('EXPORT_LEDGER', 'Downloaded General Ledger CSV');
-    }
-
-    function exportAuditCSV() {
-      let csv = 'Timestamp,StaffId,Branch,EventDescription\n';
-      auditLogs.forEach(a => {
-        csv += `"${a.time}","${a.staff}","${a.branch}","${a.event.replace(/"/g, '""')}"\n`;
-      });
-      downloadCSV(csv, `bantaba_compliance_audit_${new Date().toISOString().slice(0,10)}.csv`);
-      logAudit('EXPORT_AUDIT', 'Downloaded Compliance Audit Log CSV');
-    }
-
-    function downloadCSV(csvContent, fileName) {
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', fileName);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  </script>
+  <div id="addStaffModal" class="hidden fixed inset-0 z-50 bg-sand-900/60 modal-back flex items-center justify-center p-4">
+    <div class="tactile-card w-full max-w-md p-6 bg-white space-y-4">
+      <div class="flex items-center justify-between"><h3 class="text-sm font-bold uppercase text-gray-800">Add Staff Member</h3><button onclick="closeAddStaffModal()" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Staff ID</label><input type="text" id="newStaffId" placeholder="TEL-XXXX" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-mono font-semibold"></div>
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label><input type="text" id="newStaffName" placeholder="Full name" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Role</label><select id="newStaffRole" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"><option value="CASHIER">Teller / Cashier</option><option value="SUPERVISOR">Branch Supervisor</option><option value="COMPLIANCE">Compliance / MLRO</option><option value="ADMIN">System Administrator</option></select></div>
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Branch</label><select id="newStaffBranch" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></select></div>
+        <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 uppercase mb-1">PIN (4 digits)</label><input type="password" id="newStaffPin" placeholder="&#8226;&#8226;&#8226;&#8226;" maxlength="4" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-mono font-semibold"></div>
+      </div>
+      <button onclick="addStaffMember()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition">Register Staff Member</button>
+    </div>
+  </div>
+
+  <div id="addBranchModal" class="hidden fixed inset-0 z-50 bg-sand-900/60 modal-back flex items-center justify-center p-4">
+    <div class="tactile-card w-full max-w-md p-6 bg-white space-y-4">
+      <div class="flex items-center justify-between"><h3 class="text-sm font-bold uppercase text-gray-800">Add Branch or Counter</h3><button onclick="closeAddBranchModal()" class="text-gray-400 hover:text-gray-600 font-bold text-lg">&times;</button></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Location Code</label><input type="text" id="newBranchCode" placeholder="XX_YYY" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-mono font-semibold"></div>
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Display Name</label><input type="text" id="newBranchName" placeholder="City, Country" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></div>
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Local Currency</label><select id="newBranchCurrency" class="w-full px-3 py-2.5 inset-input rounded-xl text-xs font-semibold"></select></div>
+        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Initial Float</label><input type="number" id="newBranchFloat" value="1000000" class="w-full px-3 py-2.5 inset-input rounded-xl font-mono text-sm font-bold"></div>
+      </div>
+      <button onclick="addBranchLocation()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition">Add to Network</button>
+    </div>
+  </div>
+
+  <script type="module" src="assets/bantaba.js"></script>
 </body>
 </html>

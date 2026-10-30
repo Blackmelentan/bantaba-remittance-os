@@ -18,21 +18,45 @@
 ## Platform Overview
 Bantaba is designed for cross-border corridor operations, bridging high-volume diaspora cash intake with rapid cash disbursement across regional branch counters.
 
-### Operating Corridors
-* **Collection Desks (Cash Intake):**
-  - Guangzhou Branch, China (CNY)
-  - Yiwu Branch, China (CNY)
-  - London Branch, United Kingdom (GBP)
-  - Manchester Branch, United Kingdom (GBP)
-  - New York Branch, United States (USD)
-  - Atlanta Branch, United States (USD)
-* **Payout Counters (Cash Disbursement):**
-  - Banjul Counter, The Gambia (GMD)
-  - Serrekunda Counter, The Gambia (GMD)
-  - Dakar Counter, Senegal (XOF)
-  - Bamako Counter, Mali (XOF)
-  - Bissau Counter, Guinea-Bissau (XOF)
-  - Conakry Counter, Guinea-Conakry (GNF)
+### Operating Corridors (Bidirectional Sending & Receiving)
+Every branch and counter in the Bantaba network operates both as a cash collection desk and as a cash payout counter. Any currency can be remitted to any other supported country or currency:
+* **China:** Guangzhou (`CANTON_GZ`), Yiwu (`YIWU_CN`) — CNY
+* **United Kingdom:** London (`UK_LDN`), Manchester (`UK_MCR`) — GBP
+* **United States:** New York (`US_NYC`), Atlanta (`US_ATL`) — USD
+* **Europe:** Berlin (`DE_BER`), Paris (`FR_PAR`) — EUR
+* **Middle East:** Dubai (`AE_DXB`) — AED
+* **The Gambia:** Banjul (`GM_BJL`), Serrekunda (`GM_SKD`) — GMD
+* **Senegal:** Dakar (`SN_DKR`), Ziguinchor (`SN_ZIG`) — XOF
+* **Mali:** Bamako (`ML_BMK`) — XOF
+* **Guinea-Bissau:** Bissau (`GW_BSU`) — XOF
+* **Guinea-Conakry:** Conakry (`GNF_CKY`) — GNF
+* **Zambia:** Lusaka (`ZM_LSK`) — ZMW
+* **Malaysia:** Kuala Lumpur corridor — MYR
+
+---
+
+## Supported Currencies
+* **CNY** — Chinese Yuan (¥)
+* **GBP** — British Pound (£)
+* **USD** — US Dollar ($)
+* **EUR** — Euro (€)
+* **AED** — UAE Dirham (AED)
+* **GMD** — Gambian Dalasi (D)
+* **XOF** — West African CFA Franc (CFA)
+* **GNF** — Guinean Franc (FG)
+* **ZMW** — Zambian Kwacha (ZK)
+* **MYR** — Malaysian Ringgit (RM)
+
+---
+
+## Documentation Library
+The `docs/` directory contains full regulatory, architecture, and operational specifications:
+* `Bantaba AML KYC Compliance & Regulatory Map.pdf`
+* `Bantaba Counter & Agent Operations Manual.pdf`
+* `Bantaba Executive Summary & Venture Blueprint.pdf`
+* `Bantaba Remittance System Documentation and Prototype.pdf`
+* `Bantaba System Architecture & Code Lifecycle Spec.pdf`
+* `Bantaba Treasury FX & Float Settlement SOP.pdf`
 
 ---
 
