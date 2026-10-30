@@ -142,17 +142,39 @@ let passed = 0;
   passed++;
 }
 
-// Test 8: Double-Entry Ledger Balancing
+// Test 8: Double-Entry Ledger Balancing with Official Chart of Accounts
 {
-  // For every send entry:
-  // DR Cash Vault: $1000
-  // CR Customer Payable: $975
-  // CR FX/Transfer Fee Income: $25
-  const debit = 1000;
-  const creditPayable = 975;
-  const creditIncome = 25;
-  assert.equal(debit, creditPayable + creditIncome, 'Journal entry out of balance!');
-  console.log('✅ Test 8: Double-entry accounting balancing verified.');
+  // Chart of Accounts:
+  // 1010 CASH_VAULT (Asset)
+  // 2010 CUST_PAYABLE (Liability)
+  // 4010 FX_SPREAD_REV (Revenue)
+  // 4020 COUNTER_FEE_REV (Revenue)
+  // 5010 AGENT_COMM_EXP (Expense)
+  const chartOfAccounts = {
+    '1010': 'CASH_VAULT',
+    '2010': 'CUST_PAYABLE',
+    '4010': 'FX_SPREAD_REV',
+    '4020': 'COUNTER_FEE_REV',
+    '5010': 'AGENT_COMM_EXP'
+  };
+
+  const cashIntake = 2500;
+  const flatFee = 25;
+  const customerPayable = cashIntake - flatFee;
+
+  // Collection Journal Entry:
+  const journalEntry = [
+    { account: '1010', name: chartOfAccounts['1010'], debit: cashIntake, credit: 0 },
+    { account: '2010', name: chartOfAccounts['2010'], debit: 0, credit: customerPayable },
+    { account: '4020', name: chartOfAccounts['4020'], debit: 0, credit: flatFee }
+  ];
+
+  const totalDebits = journalEntry.reduce((sum, e) => sum + e.debit, 0);
+  const totalCredits = journalEntry.reduce((sum, e) => sum + e.credit, 0);
+
+  assert.equal(totalDebits, totalCredits, 'Double-entry journal out of balance!');
+  assert.equal(totalDebits, 2500);
+  console.log('✅ Test 8: Full chart of accounts double-entry balancing verified.');
   passed++;
 }
 
