@@ -15,8 +15,7 @@
 
 ---
 
-## Corporate Context
-Engineered by **Kaabu Technologies** (a subsidiary of **Kaabu Corp**).  
+## Platform Overview
 Bantaba is designed for cross-border corridor operations, bridging high-volume diaspora cash intake with rapid cash disbursement across regional branch counters.
 
 ### Operating Corridors
@@ -120,11 +119,6 @@ npm test
 
 ---
 
-<<<<<<< HEAD
-## 📄 License
-Licensed under the [MIT License](LICENSE).
-=======
 ## License
 Licensed under the [MIT License](LICENSE).  
-Copyright (c) Kaabu Technologies.
->>>>>>> 3b03740 (feat: integrate corporate context, full chart of accounts double-entry ledger, and clean production language)
+Copyright (c) Bantaba Remittance Network.
