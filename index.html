@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Bantaba Cash Remittance Operating System</title>
+  <meta name="description" content="Bantaba Core Operating System: Cross-border cash remittance, double-entry vault ledger, and teller management." />
+  <meta name="theme-color" content="#1b6b38" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bantaba" />
+  <!-- Security & Anti-Exploit Directives -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <link rel="manifest" href="./assets/manifest-DjSRe28h.json" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="apple-touch-icon" href="./assets/bantaba-logo-BDrR3e6j.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,600..800;1,9..144,600..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="./assets/index-g0rG1bFQ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-D-Kbfrfi.css">
+</head>
+<body>
+  <div id="app"></div>
+  <noscript>Bantaba OS requires JavaScript to operate counter terminals.</noscript>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./public/sw.js', { scope: './' })
+          .then(() => console.log('[Bantaba SW] Registered'))
+          .catch((e) => console.warn('[Bantaba SW] Registration failed:', e));
+      });
+    }
+  </script>
+</body>
+</html>

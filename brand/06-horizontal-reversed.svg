@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="none">
+  <rect x="0" y="4" width="56" height="56" rx="14" fill="#ffffff"/>
+  <path d="M28 14c-2.6 5.2-7.8 8.7-7.8 14a7.8 7.8 0 0015.6 0c0-5.3-5.2-8.8-7.8-14z" stroke="#2f8040" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M28 35v14M22.5 49h11" stroke="#2f8040" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="28" cy="28" r="2" fill="#2f8040"/>
+  <text x="72" y="42" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="600" fill="#ffffff" letter-spacing="-0.5">Bantaba</text>
+</svg>
