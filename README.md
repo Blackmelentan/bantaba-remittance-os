@@ -1,4 +1,4 @@
-# Bantaba Cash Remittance Operating System
+# Bantaba Cash Remittance Operating System (v3.0)
 
 > **Home, within reach.**  
 > A high-reliability, double-entry cash remittance teller and vault operations system designed for West African payout counters and global diaspora desks.
@@ -15,91 +15,76 @@
 
 ---
 
-## Platform Overview
-Bantaba is designed for cross-border corridor operations, bridging high-volume diaspora cash intake with rapid cash disbursement across regional branch counters.
-
-### Operating Corridors (Bidirectional Sending & Receiving)
-Every branch and counter in the Bantaba network operates both as a cash collection desk and as a cash payout counter. Any currency can be remitted to any other supported country or currency:
-* **China:** Guangzhou (`CANTON_GZ`), Yiwu (`YIWU_CN`) — CNY
-* **United Kingdom:** London (`UK_LDN`), Manchester (`UK_MCR`) — GBP
-* **United States:** New York (`US_NYC`), Atlanta (`US_ATL`) — USD
-* **Europe:** Berlin (`DE_BER`), Paris (`FR_PAR`) — EUR
-* **Middle East:** Dubai (`AE_DXB`) — AED
-* **The Gambia:** Banjul (`GM_BJL`), Serrekunda (`GM_SKD`) — GMD
-* **Senegal:** Dakar (`SN_DKR`), Ziguinchor (`SN_ZIG`) — XOF
-* **Mali:** Bamako (`ML_BMK`) — XOF
-* **Guinea-Bissau:** Bissau (`GW_BSU`) — XOF
-* **Guinea-Conakry:** Conakry (`GNF_CKY`) — GNF
-* **Zambia:** Lusaka (`ZM_LSK`) — ZMW
-* **Malaysia:** Kuala Lumpur corridor — MYR
+## What is New in v3.0
+Bantaba Remittance OS v3.0 is a ground-up architectural rewrite, replacing the earlier single-file prototype with a modular, cryptographically secure remittance engine:
+- **Clean Decoupled Architecture:** Clean separation of business logic (`src/engine/`), user interface (`src/ui/`), and tests (`test/`).
+- **Cryptographic Security Layer:** WebCrypto-backed token generation (Crockford Base32 `BNT-XXXX-XXXX` reference + 6-digit Release PIN), PBKDF2 staff password hashing, HMAC-SHA256 hashed secret storage, and zeroing/burning of the PIN upon payout.
+- **Blind Recipient Verification at Payout:** Cashier must type recipient name, phone, and ID; the system scores match quality using Jaro-Winkler fuzzy matching and West African alias mapping (*Mamadou/Muhammad*, *Jallow/Diallo*, *Ceesay/Cisse*, etc.) before cash is released.
+- **Append-Only Double-Entry Ledger:** All movements balance in integer minor units per currency with on-screen trial balances.
+- **Branch Operating Hours & Time Tracking:** Automatic clock-in/out, lateness calculation with grace period, and operating hours enforced per branch timezone.
+- **Comprehensive Test Suite:** 23 integration tests executing directly against the real engine with 100% pass rate.
 
 ---
 
-## Supported Currencies
-* **CNY** — Chinese Yuan (¥)
-* **GBP** — British Pound (£)
-* **USD** — US Dollar ($)
-* **EUR** — Euro (€)
-* **AED** — UAE Dirham (AED)
-* **GMD** — Gambian Dalasi (D)
-* **XOF** — West African CFA Franc (CFA)
-* **GNF** — Guinean Franc (FG)
-* **ZMW** — Zambian Kwacha (ZK)
-* **MYR** — Malaysian Ringgit (RM)
+## Architecture Layout
+```text
+├── src/
+│   ├── engine/           # Pure business logic (zero DOM dependencies)
+│   │   ├── core.js       # Central state machine, RBAC, KYC tiers, audit chain
+│   │   ├── crypto.js     # WebCrypto PBKDF2, HMAC, SHA-256, rejection sampling
+│   │   ├── defaults.js   # Seed data (12 currencies, 12 countries, 19 branches)
+│   │   ├── fx.js         # Cross-rates via USD pivot, fee bands, margin overrides
+│   │   ├── ledger.js     # Chart of accounts, double-entry journals, trial balance
+│   │   ├── money.js      # Minor integer units conversion (no float drift)
+│   │   └── names.js      # Fuzzy name match & West African alias resolution
+│   └── ui/               # Presentation layer
+│       ├── main.js       # SPA navigation, counter forms, cashier modals
+│       └── styles.css    # Clean tactile counter design system
+├── test/
+│   └── engine.test.js    # 23 automated integration tests (node:test)
+├── docs/                 # Institutional documentation & specifications
+│   ├── 00_Review_and_Gap_Analysis.md
+│   ├── specs/            # Technical specifications (Network, Workforce)
+│   ├── venture-pack/     # Business plan, threat model, financial model (.xlsx)
+│   └── *.pdf             # Operational and compliance PDFs
+└── public/brand/         # Approved SVG vector brand assets
+```
+
+---
+
+## Operating Corridors (Bidirectional Sending & Receiving)
+Every branch and counter in the Bantaba network operates both as a cash collection desk and as a cash payout counter:
+* **The Gambia:** Banjul (`GM-BJL`), Serrekunda (`GM-SKD`), Brikama (`GM-BRK`) — GMD
+* **Senegal:** Dakar (`SN-DKR`), Ziguinchor (`SN-ZIG`) — XOF
+* **Mali:** Bamako (`ML-BKO`) — XOF
+* **Guinea-Bissau:** Bissau (`GW-BSS`) — XOF
+* **Guinea:** Conakry (`GN-CKY`) — GNF
+* **Zambia:** Lusaka (`ZM-LUN`), Kitwe (`ZM-KIT`) — ZMW
+* **United Kingdom:** London (`GB-LDN`), Manchester (`GB-MAN`) — GBP
+* **United States:** New York (`US-NYC`), Atlanta (`US-ATL`) — USD
+* **China:** Guangzhou (`CN-GZH`), Yiwu (`CN-YIW`) — CNY
+* **Germany:** Berlin (`DE-BER`) — EUR
+* **France:** Paris (`FR-PAR`) — EUR
+* **United Arab Emirates:** Dubai (`AE-DXB`) — AED
 
 ---
 
 ## Documentation Library
 The `docs/` directory contains full regulatory, architecture, and operational specifications:
+* [Review & Gap Analysis](docs/00_Review_and_Gap_Analysis.md)
+* [Network, Currency & Transfers Spec](docs/specs/10_Network_Currency_and_Transfers_Spec.md)
+* [Admin, Workforce & Time Spec](docs/specs/11_Admin_Workforce_and_Time_Spec.md)
 * `Bantaba AML KYC Compliance & Regulatory Map.pdf`
 * `Bantaba Counter & Agent Operations Manual.pdf`
 * `Bantaba Executive Summary & Venture Blueprint.pdf`
 * `Bantaba Remittance System Documentation and Prototype.pdf`
 * `Bantaba System Architecture & Code Lifecycle Spec.pdf`
 * `Bantaba Treasury FX & Float Settlement SOP.pdf`
+* `docs/venture-pack/` (Business Plan, Threat Model, GTM, Financial Model Excel)
 
 ---
 
-## System Capabilities
-
-1. **Cash Collection Desk:**
-   - Real-time foreign exchange rate calculation with automated counter fee breakdown.
-   - Generates unique 10-digit redemption codes in the standard format.
-   - POS thermal receipt formatting with print styles.
-   - Synthetic audio confirmation for cashier interactions.
-
-2. **Cash Payout Counter:**
-   - Rapid code verification against central ledger balances.
-   - Anti-double-spend protection restricting already disbursed codes.
-   - Counter vault balance verification to block overdrafts.
-   - Real-time pending queue selector for swift lookup.
-
-3. **Multi-Currency Chart of Accounts:**
-   - Integrated chart of accounts supporting balanced double-entry accounting:
-     - `1010 CASH_VAULT` (Asset)
-     - `2010 CUST_PAYABLE` (Liability)
-     - `4010 FX_SPREAD_REV` (Revenue)
-     - `4020 COUNTER_FEE_REV` (Revenue)
-     - `5010 AGENT_COMM_EXP` (Expense)
-   - Every transaction automatically records debit and credit journal entries.
-
-4. **Treasury and Vault Management:**
-   - Live liquidity tracking for regional vaults: Banjul (GMD), Dakar (XOF), Bamako (XOF), Conakry (GNF), and Bissau (XOF).
-   - Liquidity alerts for low float balances.
-   - Supervisor and Administrator float injection modal to rebalance counter cash.
-
-5. **Compliance and Audit Trail:**
-   - Chronological logging of authentication, code generation, disbursements, reversals, and float rebalancing.
-   - Dedicated CSV export for Money Laundering Reporting Officers (MLRO) and compliance reviews.
-
-6. **Executive Analytics:**
-   - Processed volume tracking with foreign exchange conversion to USD equivalent.
-   - Corridor flow distributions across regional desks.
-   - Customer retention metrics based on recipient verification.
-
----
-
-## Local Development
+## Quickstart & Local Development
 
 ```bash
 # Clone the repository
@@ -109,37 +94,30 @@ cd bantaba-remittance-os
 # Install dependencies
 npm install
 
-# Start local server
-npm run dev
-
-# Run automated test suite
+# Run automated test suite (23 tests on real engine)
 npm test
+
+# Start local development server
+npm run dev
 
 # Build production bundle
 npm run build
-
-# Deploy to GitHub Pages
-npm run deploy
 ```
 
 ---
 
-## Testing
-The automated test suite verifies financial logic, vault constraints, code formats, and double-entry balancing:
-```bash
-npm test
-```
+## Demo Authentication
 
----
+Every demo staff account uses PIN: **`482915`**
 
-## Terminal Authentication
-* **Staff ID:** TEL-8842
-* **Security PIN:** 1234
-* **Available Roles:**
-  - `Teller / Cashier`: Collection desk and payout counter access.
-  - `Branch Supervisor`: Treasury controls and liquidity rebalancing.
-  - `Compliance / MLRO`: Audit trails and regulatory logs.
-  - `System Administrator`: Unrestricted access across all operational modules.
+| Staff ID | Role | Location | Description |
+| :--- | :--- | :--- | :--- |
+| `GB-LDN-T1` | Teller | London | Diaspora send desk |
+| `GM-SKD-T1` | Teller | Serrekunda | Regional cash payout desk |
+| `GM-SKD-S1` | Supervisor | Serrekunda | Overrides, day close, unlocks |
+| `TRS-01` | Treasury | Central | Float injection & FX rates |
+| `CMP-01` | Compliance | Central | AML/PEP holds & sanctions review |
+| `ADM-01` | Admin | Central | Network, staff, rules & system audit |
 
 ---
 
