@@ -2,11 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Bantaba — Cash Remittance Operating System</title>
   <meta name="description" content="Bantaba Core Operating System: Cross-border cash remittance, double-entry vault ledger, and teller management." />
+  <meta name="theme-color" content="#1b6b38" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bantaba" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="./public/manifest.json" />
   <link rel="icon" type="image/png" href="./favicon.png" />
-  <link rel="apple-touch-icon" href="./favicon.png" />
+  <link rel="apple-touch-icon" href="./public/brand/bantaba-logo.png" />
   <link rel="stylesheet" href="/src/ui/styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,5 +22,14 @@
   <div id="app"></div>
   <noscript>Bantaba OS requires JavaScript to operate counter terminals.</noscript>
   <script type="module" src="/src/ui/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./public/sw.js', { scope: './' })
+          .then(() => console.log('[Bantaba SW] Registered'))
+          .catch((e) => console.warn('[Bantaba SW] Registration failed:', e));
+      });
+    }
+  </script>
 </body>
 </html>

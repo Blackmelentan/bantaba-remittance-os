@@ -1,0 +1,27 @@
+﻿{
+  "name": "Bantaba — Cash Remittance OS",
+  "short_name": "Bantaba",
+  "description": "Cross-border cash remittance operating system with double-entry vault ledger and teller management.",
+  "start_url": "/bantaba-remittance-os/",
+  "scope": "/bantaba-remittance-os/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f9f7",
+  "theme_color": "#1b6b38",
+  "lang": "en",
+  "categories": ["finance", "business", "productivity"],
+  "icons": [
+    {
+      "src": "./brand/bantaba-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./brand/bantaba-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

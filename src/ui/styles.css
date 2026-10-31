@@ -717,7 +717,214 @@ tr:hover td {
 
 .hide { display: none !important; }
 
-/* Print Styles */
+/* ==========================================================================
+   Bento Hero KPI Stat Tiles (Reports & Analytics)
+   ========================================================================== */
+.bento-hero {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-mut);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-val {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--brand-700);
+  line-height: 1.1;
+  margin: 4px 0 2px;
+}
+
+.hero-meta {
+  font-size: 0.75rem;
+  color: var(--text-mut);
+}
+
+/* Column helpers for bento-grid children */
+.col-3, .col-5, .col-6, .col-7, .col-12 { min-width: 0; }
+
+/* Gold colour variable (used in hero-val liability) */
+:root { --gold-600: #d97706; }
+
+/* ==========================================================================
+   Inline Code / PIN Embossed Spans (Compliance Reissue Card)
+   ========================================================================== */
+.code-embossed {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--brand-700);
+  background: var(--brand-50);
+  border: 1px solid #cce3d2;
+  border-radius: 8px;
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+.pin-embossed {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--sand-800);
+  background: var(--sand-100);
+  border: 1px solid var(--sand-200);
+  border-radius: 8px;
+  padding: 4px 10px;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+/* ==========================================================================
+   Utility Helpers
+   ========================================================================== */
+.small  { font-size: 0.78rem; }
+.muted  { color: var(--text-mut); }
+.text-right { text-align: right; }
+
+/* ==========================================================================
+   Mobile & Responsive Overhaul
+   ========================================================================== */
+
+/* ── Ticker: hide on tiny screens ── */
+@media (max-width: 600px) {
+  .system-ticker {
+    font-size: 0.62rem;
+    padding: 4px 12px;
+    gap: 6px;
+  }
+  .system-ticker span:nth-child(2) { display: none; }
+}
+
+/* ── Header: stack on mobile ── */
+@media (max-width: 680px) {
+  header.top {
+    padding: 8px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .brand-img { height: 32px; }
+  .brand-title { font-size: 1.05rem; }
+  .station-meta { font-size: 0.74rem; gap: 8px; }
+  .station-pill { flex-wrap: wrap; gap: 6px; }
+  .station-who { font-size: 0.72rem; }
+}
+
+/* ── Tab bar: scroll horizontally on mobile ── */
+@media (max-width: 760px) {
+  nav.tabs {
+    gap: 0;
+    padding: 0 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  nav.tabs::-webkit-scrollbar { display: none; }
+  nav.tabs button {
+    padding: 10px 12px;
+    font-size: 0.7rem;
+    gap: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+/* ── Main content padding ── */
+@media (max-width: 680px) {
+  main { padding: 14px 10px 80px; }
+}
+
+/* ── Bento grid: single column on tablet and below ── */
+@media (max-width: 920px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Cards ── */
+@media (max-width: 680px) {
+  .card, .tactile-card { padding: 14px 12px; border-radius: 12px; }
+  .card-header { flex-wrap: wrap; gap: 6px; }
+  h2 { font-size: 1rem; }
+}
+
+/* ── Tables: scrollable wrapper already on .scroll, 
+      but ensure min-width so columns don't collapse ── */
+@media (max-width: 680px) {
+  table { font-size: 0.78rem; min-width: 580px; }
+  th, td { padding: 8px 8px; }
+}
+
+/* ── Grid helpers collapse earlier ── */
+@media (max-width: 600px) {
+  .g3, .g4 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+}
+
+/* ── Bento hero KPI tiles: 2-up on narrow, 1-up on phone ── */
+@media (max-width: 920px) {
+  .bento-grid .col-3 .bento-hero { padding: 14px 12px; }
+  .hero-val { font-size: 1.6rem; }
+}
+@media (max-width: 480px) {
+  .hero-val { font-size: 1.4rem; }
+}
+
+/* ── Sub tabs (admin) ── */
+@media (max-width: 600px) {
+  .sub { gap: 6px; }
+  .sub button { font-size: 0.75rem; padding: 5px 10px; }
+}
+
+/* ── Login card ── */
+@media (max-width: 520px) {
+  .login-wrap { margin: 2vh auto; padding: 0 10px; }
+  .login-card { padding: 20px 16px; border-radius: 14px; }
+  .desk-chips, .station-chips { grid-template-columns: 1fr; }
+}
+
+/* ── Row layout wraps tighter on phone ── */
+@media (max-width: 480px) {
+  .row > * { min-width: 100%; }
+}
+
+/* ── Buttons full-width on small screens ── */
+@media (max-width: 400px) {
+  .btn { width: 100%; justify-content: center; }
+}
+
+/* ── Flash messages ── */
+@media (max-width: 480px) {
+  .flash { font-size: 0.8rem; padding: 8px 14px; max-width: 94vw; }
+}
+
+/* ── iOS safe area padding ── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body { padding-bottom: env(safe-area-inset-bottom); }
+  main { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   body * { visibility: hidden !important; }
